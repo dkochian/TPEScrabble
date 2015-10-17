@@ -1,6 +1,4 @@
 package Board;
-
-
 public class Board {
 
 	private Square[][] board;
@@ -42,10 +40,20 @@ public class Board {
 
 	}
 
+	/**
+	 * 
+	 * @param letter to be placed
+	 * @param square where letter will be placed
+	 * @param transposed 
+	 */
 	public void placePiece(char letter, Square square, boolean transposed) {
 		square.setContent(letter, transposed);
 	}
 
+	/**
+	 * @param square that will be checked if within the boundaries
+	 * @return true if it is within boundaries, false if not.
+	 */
 	public boolean isOutofBounds(Square square) {
 		return square.getContent() == Square.OUT_BOUNDS;
 	}
@@ -56,6 +64,9 @@ public class Board {
 	}
 
 
+	/**
+	 * Prints the board
+	 */
 	public void printBoard() {
 		for (Square[] row : this.board) {
 			for (Square cell : row) {

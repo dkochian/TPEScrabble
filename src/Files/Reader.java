@@ -11,6 +11,11 @@ import Dictionary.Dic;
 
 
 public class Reader {
+	
+	/**
+	 * Reads dictionary from text file
+	 * @param dictionary where the valid words will be added
+	 */
 	public static void readDictionary(Dic dictionary){
 		BufferedReader br = null;
 		try {			
@@ -37,7 +42,11 @@ public class Reader {
 	}
 	
 	
-	
+	/**
+	 * Reads letter from text file
+	 * @return a List containing the letters which
+	 * will be used in the game
+	 */
 	public static List<Character> readLetters(){
 		List<Character> letters = new ArrayList<Character>();
 		BufferedReader br = null;

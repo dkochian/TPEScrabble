@@ -5,12 +5,18 @@ import java.util.Map;
 
 public class Trie {
 	
+	/**
+	 * Will not contain a char value, its children will be all the nodes containing the first letters in each word.
+	 */
 	 private TrieNode root;
 	 
 	    public Trie() {
 	        root = new TrieNode();
 	    }
 
+	    /**
+	     * @param word to be added to the trie
+	     */
 	    public void insert(String word) {
 	        HashMap<Character, TrieNode> children = root.children;
 	 
@@ -34,7 +40,10 @@ public class Trie {
 	        }
 	    }
 	 
-	    
+	    /**
+	     * @param word that will be searched in the trie
+	     * @return true if the word is found, false if not
+	     */
 	    public boolean search(String word) {
 	        TrieNode t = searchNode(word);
 	 
@@ -45,8 +54,11 @@ public class Trie {
 	        }
 	    }
 	 
-	    // Returns if there is any word in the trie
-	    // that starts with the given prefix.
+	    
+	    /**
+	     * @param prefix
+	     * @return if there is any word in the trie that starts with the given prefix.
+	     */
 	    public boolean startsWith(String prefix) {
 	        if(searchNode(prefix) == null) 
 	            return false;
@@ -54,6 +66,10 @@ public class Trie {
 	            return true;
 	    }
 	 
+	    /**
+	     * @param str
+	     * @return true if the string was found (is a valid word), false if not.
+	     */
 	    private TrieNode searchNode(String str){
 	        Map<Character, TrieNode> children = root.children; 
 	        TrieNode t = null;
@@ -69,6 +85,9 @@ public class Trie {
 	        return t;
 	    }
 	    
+	    /**
+	     * Class representing each node in the trie
+	     */
 	    private static class TrieNode {
 	        private char c;
 	        private HashMap<Character, TrieNode> children = new HashMap<Character, TrieNode>();

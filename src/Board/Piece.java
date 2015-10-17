@@ -1,5 +1,8 @@
 package Board;
 
+/**
+ * Represents the games pieces, containing the piece's score and letter
+ */
 public class Piece {
 	private int value;
 	private char letter;

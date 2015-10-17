@@ -1,0 +1,150 @@
+!SESSION 2015-10-17 14:58:50.321 -----------------------------------------------
+eclipse.buildId=4.4.2.M20150204-1700
+java.version=1.8.0_31
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/natinavas/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.java.product -keyring /Users/natinavas/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2015-10-17 15:03:16.685
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-10-17 15:11:55.483
+!MESSAGE Invalid project description.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createExistingProject(ProjectUtils.java:174)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.access$0(ProjectUtils.java:137)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils$1.run(ProjectUtils.java:96)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:129)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:60)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.importProjects(GitImportWizard.java:246)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.access$2(GitImportWizard.java:229)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard$4.run(GitImportWizard.java:199)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+Contains: OK
+Contains: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2015-10-17 15:11:55.485
+!MESSAGE Invalid project description.
+!SUBENTRY 2 unknown 0 0 2015-10-17 15:11:55.485
+!MESSAGE OK
+!SUBENTRY 2 org.eclipse.core.resources 4 77 2015-10-17 15:11:55.485
+!MESSAGE /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-10-17 15:12:07.183
+!MESSAGE Invalid project description.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createExistingProject(ProjectUtils.java:174)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.access$0(ProjectUtils.java:137)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils$1.run(ProjectUtils.java:96)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:129)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:60)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.importProjects(GitImportWizard.java:246)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.access$2(GitImportWizard.java:229)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard$4.run(GitImportWizard.java:199)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+Contains: OK
+Contains: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2015-10-17 15:12:07.183
+!MESSAGE Invalid project description.
+!SUBENTRY 2 unknown 0 0 2015-10-17 15:12:07.183
+!MESSAGE OK
+!SUBENTRY 2 org.eclipse.core.resources 4 77 2015-10-17 15:12:07.183
+!MESSAGE /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-10-17 15:12:13.517
+!MESSAGE Invalid project description.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createExistingProject(ProjectUtils.java:174)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.access$0(ProjectUtils.java:137)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils$1.run(ProjectUtils.java:96)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:129)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:60)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.importProjects(GitImportWizard.java:246)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.access$2(GitImportWizard.java:229)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard$4.run(GitImportWizard.java:199)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+Contains: OK
+Contains: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2015-10-17 15:12:13.518
+!MESSAGE Invalid project description.
+!SUBENTRY 2 unknown 0 0 2015-10-17 15:12:13.518
+!MESSAGE OK
+!SUBENTRY 2 org.eclipse.core.resources 4 77 2015-10-17 15:12:13.518
+!MESSAGE /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-10-17 15:12:19.935
+!MESSAGE Invalid project description.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createExistingProject(ProjectUtils.java:174)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.access$0(ProjectUtils.java:137)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils$1.run(ProjectUtils.java:96)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:129)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:60)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.importProjects(GitImportWizard.java:246)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.access$2(GitImportWizard.java:229)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard$4.run(GitImportWizard.java:199)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+Contains: OK
+Contains: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2015-10-17 15:12:19.935
+!MESSAGE Invalid project description.
+!SUBENTRY 2 unknown 0 0 2015-10-17 15:12:19.935
+!MESSAGE OK
+!SUBENTRY 2 org.eclipse.core.resources 4 77 2015-10-17 15:12:19.935
+!MESSAGE /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-10-17 15:13:16.154
+!MESSAGE Invalid project description.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createExistingProject(ProjectUtils.java:174)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.access$0(ProjectUtils.java:137)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils$1.run(ProjectUtils.java:96)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:129)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:60)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.importProjects(GitImportWizard.java:246)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.access$2(GitImportWizard.java:229)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard$4.run(GitImportWizard.java:199)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+Contains: OK
+Contains: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2015-10-17 15:13:16.154
+!MESSAGE Invalid project description.
+!SUBENTRY 2 unknown 0 0 2015-10-17 15:13:16.154
+!MESSAGE OK
+!SUBENTRY 2 org.eclipse.core.resources 4 77 2015-10-17 15:13:16.154
+!MESSAGE /Users/natinavas/Documents/ITBA/EDA/TPEScrabble overlaps the workspace location: /Users/natinavas/Documents/ITBA/EDA/TPEScrabble

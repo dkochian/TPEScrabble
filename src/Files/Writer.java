@@ -9,6 +9,13 @@ import Board.Board;
 import Board.Square;
 
 public class Writer {
+	
+	/**
+	 * Writes the game in a text file
+	 * @param filename of the resulting file
+	 * @param board that will be written in the file
+	 * @throws IOException
+	 */
 	public static void write (String filename, Board board) throws IOException{
 
 		try {
