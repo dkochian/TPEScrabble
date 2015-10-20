@@ -131,11 +131,8 @@ public class Game {
 			char letter = wn.getLetter();
 			boolean isTransposed = move.isTransposed();
 			
-<<<<<<< HEAD
-			if (sq.containsLetter()) { //
-=======
-			if (! sq.containsLetter()) {
->>>>>>> origin/master
+			if (sq.containsLetter()) { 
+		//	if (! sq.containsLetter()) {
 				board.placePiece(letter, sq, isTransposed);
 
 				computer.removePieceFromHand(letter);
