@@ -21,8 +21,6 @@ public class Board {
 				Square square = board[row][column];
 				if (row == 7 && column == 7) {
 					square.setCenterSquare();
-					//square.setAnchor(true);
-					//square.initCrossCheck();
 				}
 			}
 		}
@@ -70,9 +68,9 @@ public class Board {
 	public void printBoard() {
 		for (Square[] row : this.board) {
 			for (Square cell : row) {
-				if (cell.containsLetter()) {
+				//if (cell.containsLetter()) {
 					System.out.print(cell.getContent());
-				}
+				//}
 				System.out.print("\t");
 			}
 			System.out.println();

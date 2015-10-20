@@ -64,12 +64,12 @@ public class Game {
 		Square sq = board.getSquare(move.getEndSquare().getRow(), move.getEndSquare().getColumn());
 		
 			
-		while (wn.getPreviousLetter() != null && sq.getContent() != Square.OUT_BOUNDS) {
+		while (wn != null && sq.getContent() != Square.OUT_BOUNDS) {
 
 			char letter = wn.getLetter();
 			boolean isTransposed = move.isTransposed();
 			
-			if (sq.containsLetter()) {
+			if (! sq.containsLetter()) {
 				board.placePiece(letter, sq, isTransposed);
 
 				computer.removePieceFromHand(letter);
