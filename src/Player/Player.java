@@ -15,12 +15,15 @@ public class Player {
 	private int score = 0;
 	private List<Move> moves;
 	private Dic dictionary;
+	private List<Character> piecesOnBoard;
+	private int hola = 0;//para crear las palabras
 
 	public Player(Board board, List<Character> letters, Dic dictionary) {
 		this.board = board;
 		this.piecesOnHand = letters;
 		this.moves = new ArrayList<>();
 		this.dictionary = dictionary;
+		this.piecesOnBoard = new ArrayList<Character>();
 	}
 	
 	public boolean placedAllPieces() {
@@ -275,6 +278,7 @@ public class Player {
 			return false;
 
 		this.piecesOnHand.remove(charIndex);
+		this.piecesOnBoard.add(letter);
 		return true;
 	}
 	
@@ -288,11 +292,14 @@ public class Player {
 		return -1;
 	}
 	
-	public void addScore(int score){
-		this.score += score;
+	public void addScore(){
+		for(Character each : piecesOnBoard){
+			score += Dic.values[Dic.alphabet.indexOf(each)];
+		}
 	}
 	
 	public int getScore(){
+		addScore();
 		return this.score;
 	}
 	

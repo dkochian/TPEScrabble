@@ -14,12 +14,14 @@ public class Game {
 	private List<Character> letters;
 	private Player computer;
 	private Dic dictionary;
+	private Scrabble gui;
 
 	public Game() {
 		this.dictionary = new Dic();
 		this.board = new Board();
 		this.letters = Reader.readLetters();
 		this.computer = new Player(board, letters, dictionary);
+		this.gui = new Scrabble(this.board);
 	}
 	
 	public Board play(){
@@ -31,12 +33,15 @@ public class Game {
 				gameOver = true;
 				continue;
 			}
+			gui.updateBoard();
 			board.printBoard();
 			System.out.println();			
 
 			System.out.println("----------------------------------");
 			System.out.println();
 		}
+		score = computer.getScore();
+		gui.updateScores(score);
 		return this.board;
 	}
 
