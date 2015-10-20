@@ -160,9 +160,8 @@ public class Square {
 	 * @return true if the square does not contain a blank space
 	 */
 	public boolean containsLetter() {
-		return content != ' ';
+		return content != '.' && content != '7';
 	}
-
 	/**
 	 * @return true if the square is empty
 	 */

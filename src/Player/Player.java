@@ -15,12 +15,15 @@ public class Player {
 	private int score = 0;
 	private List<Move> moves;
 	private Dic dictionary;
+	private List<Character> piecesOnBoard;
+	private int hola = 0;//para crear las palabras
 
 	public Player(Board board, List<Character> letters, Dic dictionary) {
 		this.board = board;
 		this.piecesOnHand = letters;
 		this.moves = new ArrayList<>();
 		this.dictionary = dictionary;
+		this.piecesOnBoard = new ArrayList<Character>();
 	}
 	
 	public boolean placedAllPieces() {
@@ -28,22 +31,25 @@ public class Player {
 	}
 	
 	public Move generateMove(){
-		Move newMove = null;
+	Move newMove = null;
 		
-		List<Character> piecesOnHandAux = new ArrayList<>();
-		piecesOnHandAux.addAll(piecesOnHand);
-		List<Node> nodes = new ArrayList<Node>();
-		for(char each : piecesOnHand){
-			nodes.add(new Node(each));
-		}
+//		List<Character> piecesOnHandAux = new ArrayList<>();
+//		piecesOnHandAux.addAll(piecesOnHand);
+//		List<Node> nodes = new ArrayList<Node>();
+//		for(char each : piecesOnHand){
+//			nodes.add(new Node(each));
+//		}
 		
 		//for(Node each : nodes){
 			
 			//StringBuffer word = new StringBuffer();
-			
-			
+		
+		Move newWord = null;
+		if(hola == 0){
+
+			hola += 1;
 			String word = "HOLA";
-			
+
 			LetterNode lc = new LetterNode(null, null, 'H');
 			LetterNode newLc = new LetterNode(lc, null, 'O');
 			lc.setNextLetter(newLc);
@@ -54,22 +60,52 @@ public class Player {
 			newLc = new LetterNode(lc, null, 'A');
 			lc.setNextLetter(newLc);
 			lc = lc.getNextLetter();
+
+			newWord = new Move(word.toString().toCharArray(), lc, null, false);//generateWord(each, null, word, nodes);
+		}else if(hola == 1){
+			hola += 1;
+			String word = "CASA";
+			LetterNode lc = new LetterNode(null, null, 'C');
+			LetterNode newLc = new LetterNode(lc, null, 'A');
+			lc.setNextLetter(newLc);
+			lc = lc.getNextLetter();
+			newLc = new LetterNode(lc, null, 'S');
+			lc.setNextLetter(newLc);
+			lc = lc.getNextLetter();
+			newLc = new LetterNode(lc, null, 'A');
+			lc.setNextLetter(newLc);
+			lc = lc.getNextLetter();
+
+			newWord = new Move(word.toString().toCharArray(), lc, null, false);//generateWord(each, null, word, nodes);
+		}else if(hola == 2){
+			hola += 1;
+			String word = "CHAU";
+			LetterNode lc = new LetterNode(null, null, 'C');
+			LetterNode newLc = new LetterNode(lc, null, 'H');
+			lc.setNextLetter(newLc);
+			lc = lc.getNextLetter();
+			newLc = new LetterNode(lc, null, 'A');
+			lc.setNextLetter(newLc);
+			lc = lc.getNextLetter();
+			newLc = new LetterNode(lc, null, 'U');
+			lc.setNextLetter(newLc);
+			lc = lc.getNextLetter();
+
+			newWord = new Move(word.toString().toCharArray(), lc, null, false);//generateWord(each, null, word, nodes);
+		}
 			
-			Move newWord = new Move(word.toString().toCharArray(), lc, null, false);//generateWord(each, null, word, nodes);
-			
-			//System.out.println(newWord == null);
-			if(newWord != null){
-				
-				newMove = generateMove(newWord);
-				if(newMove != null){
-					
-					moves.add(newMove);
-					return newMove;
-				}
+		if(newWord != null){
+
+			newMove = generateMove(newWord);
+
+			if(newMove != null){
+				moves.add(newMove);
+				return newMove;
 			}
-//			for(Node each2 : nodes){
-//				each2.visited = false;
-//			}
+		}
+		//			for(Node each2 : nodes){
+		//				each2.visited = false;
+		//			}
 		//}
 		return null;
 	}
@@ -121,32 +157,31 @@ public class Player {
 	}
 	
 	private Move generateMove(Move newWord){
-		//if(board.isCenterFree()){
+		if(board.isCenterFree()){
+			int prom;
+			if(newWord.getWord().length % 2 == 0){
+				prom = ((newWord.getWord().length)/2) - 1;
+			}else{
+				prom = ((newWord.getWord().length)/2);
+			}
 			newWord.setTransposed(false);
-			Move hola = generateMove(newWord,7,7) ;
-			return hola;
-		//}
+			return generateMove(newWord,7,7 + prom) ;	 
+		}
+
+		Move newHMove = generateHMove(newWord);
 		
-//		Move newHMove = generateHMove(newWord);
-//		if( newHMove != null){
-//			return newHMove;
-//		}
-//
-//		return generateVMove(newWord);
+		if( newHMove != null){
+			return newHMove;
+		}
+
+		return generateVMove(newWord);
 	}
 	
 	private Move generateMove(Move newWord, int row, int column){
-		int prom;
-		if(newWord.getWord().length % 2 == 0){
-			prom = ((newWord.getWord().length)/2) - 1;
-		}else{
-			prom = ((newWord.getWord().length)/2);
-		}
-		
 		if(newWord.isTransposed()){
-			newWord.setEndSquare(new Square(newWord.getLetterNode().getLetter(), row + prom, column));
+			newWord.setEndSquare(new Square(newWord.getLetterNode().getLetter(), row /*+ prom*/, column));
 		}else{
-			newWord.setEndSquare(new Square(newWord.getLetterNode().getLetter(), row, column + prom));
+			newWord.setEndSquare(new Square(newWord.getLetterNode().getLetter(), row, column /*+ prom*/));
 		}
 
 		return newWord;
@@ -154,17 +189,22 @@ public class Player {
 	
 	private Move generateHMove(Move newWord){
 		boolean transposed = false;
-		//this.board.calculateAllValidPieces(transposed);
-
+		this.board.calculateAllValidPieces(transposed);
+		
 		for (int row = 0; row < board.BOARD_SIZE; row++) {
 			for (int column = 0; column < board.BOARD_SIZE; column++) {
 				Square square = board.getSquare(row, column);
-				if(! square.isEmpty() && square.getNextRight(transposed).isEmpty()){
+				
+				if( square.containsLetter() &&  ! square.getNextRight(transposed).containsLetter() && ! square.getNextLeft(transposed).containsLetter()){
+					
 					Character letter = square.getContent();
+					
 					for(int i = 0; i < newWord.getWord().length; i++){
+						newWord.setTransposed(transposed);
 						if(letter.equals(newWord.getWord()[i]) && verify(newWord, i, row, column)){
-							newWord.setTransposed(transposed);
-							newWord = generateMove(newWord, row, column);
+						
+							
+							newWord = generateMove(newWord, row, column + (newWord.getWord().length - i - 1));
 							return newWord;
 						}
 					}
@@ -206,17 +246,19 @@ public class Player {
 	
 	private Move generateVMove(Move newWord){
 		boolean transposed = true;
-		//this.board.calculateAllValidPieces(transposed);
+		this.board.calculateAllValidPieces(transposed);
 
 		for (int row = 0; row < board.BOARD_SIZE; row++) {
 			for (int column = 0; column < board.BOARD_SIZE; column++) {
 				Square square = board.getSquare(row, column);
-				if(! square.isEmpty() && square.getNextRight(transposed).isEmpty()){
+				
+				if( square.containsLetter() &&  ! square.getNextRight(transposed).containsLetter() && !square.getNextLeft(transposed).containsLetter()){
 					Character letter = square.getContent();
 					for(int i = 0; i < newWord.getWord().length; i++){
+						newWord.setTransposed(transposed);
 						if(letter.equals(newWord.getWord()[i]) && verify(newWord, i, row, column)){
-							newWord.setTransposed(transposed);
-							newWord = generateMove(newWord, row, column);
+							
+							newWord = generateMove(newWord, row + (newWord.getWord().length - i - 1), column);
 							return newWord;
 						}
 					}
@@ -236,6 +278,7 @@ public class Player {
 			return false;
 
 		this.piecesOnHand.remove(charIndex);
+		this.piecesOnBoard.add(letter);
 		return true;
 	}
 	
@@ -249,11 +292,14 @@ public class Player {
 		return -1;
 	}
 	
-	public void addScore(int score){
-		this.score += score;
+	public void addScore(){
+		for(Character each : piecesOnBoard){
+			score += Dic.values[Dic.alphabet.indexOf(each)];
+		}
 	}
 	
 	public int getScore(){
+		addScore();
 		return this.score;
 	}
 	
