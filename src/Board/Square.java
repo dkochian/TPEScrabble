@@ -1,10 +1,5 @@
 package board;
 
-import java.util.HashSet;
-
-import dictionary.Dic;
-
-
 
 public class Square {
 //	static final char INVALID_SQUARE = (char) -1;

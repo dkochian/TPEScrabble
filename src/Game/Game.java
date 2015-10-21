@@ -1,8 +1,6 @@
 package game;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import board.Board;
 import board.Square;

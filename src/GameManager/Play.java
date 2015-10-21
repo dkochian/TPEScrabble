@@ -3,7 +3,6 @@ package gameManager;
 import java.io.IOException;
 
 import board.Board;
-import dictionary.Dic;
 import files.Writer;
 import game.Game;
 

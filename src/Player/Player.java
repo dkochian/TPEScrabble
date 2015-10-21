@@ -1,6 +1,7 @@
 package player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import board.Board;
@@ -25,6 +26,8 @@ public class Player {
 		this.piecesOnBoard = new ArrayList<Character>();
 		this.dictionary = dictionary;
 	}
+	
+	
 	
 	public boolean placedAllPieces() {
 		return piecesOnHand.size() == 0;
@@ -114,47 +117,47 @@ public class Player {
 	
 	
 
-	private Move generateWord(Node letter, LetterNode lc, StringBuffer word, List<Node> nodes){//Este metodo no va
-		//System.out.println(word);
-		Move move = null;
-
-		
-		StringBuffer wordAux = new StringBuffer();
-		wordAux.append(word);
-		wordAux.append(letter.c);
-		System.out.println(String.valueOf(wordAux));
-		
-		if(Dic.isValidWord(wordAux.toString())){
-			System.out.println("entra");
-			move = new Move(word.toString().toCharArray(), lc, null, false);
-			return move;
-		}
-
-		if(dictionary.startsWith(wordAux.toString())){
-			//System.out.println(word);
-			if(lc == null){
-				lc = new LetterNode(null, null, letter.c);
-			}else{
-				LetterNode newLc = new LetterNode(lc, null, letter.c);
-				lc.setNextLetter(newLc);
-				lc = lc.getNextLetter();
-			}
-			letter.visited = true;
-			word.append(letter.c);
-			
-			for(Node each : nodes){
-
-				if( ! each.visited){
-					//System.out.println(word + "---------------");
-					generateWord(each, lc, word, nodes);
-				}
-//				System.out.println(letter);
-				
-				
-			}
-		}
-		return move;
-	}
+//	private Move generateWord(Node letter, LetterNode lc, StringBuffer word, List<Node> nodes){//Este metodo no va
+//		//System.out.println(word);
+//		Move move = null;
+//
+//		
+//		StringBuffer wordAux = new StringBuffer();
+//		wordAux.append(word);
+//		wordAux.append(letter.c);
+//		System.out.println(String.valueOf(wordAux));
+//		
+//		if(Dic.isValidWord(wordAux.toString())){
+//			System.out.println("entra");
+//			move = new Move(word.toString().toCharArray(), lc, null, false);
+//			return move;
+//		}
+//
+//		if(dictionary.startsWith(wordAux.toString())){
+//			//System.out.println(word);
+//			if(lc == null){
+//				lc = new LetterNode(null, null, letter.c);
+//			}else{
+//				LetterNode newLc = new LetterNode(lc, null, letter.c);
+//				lc.setNextLetter(newLc);
+//				lc = lc.getNextLetter();
+//			}
+//			letter.visited = true;
+//			word.append(letter.c);
+//			
+//			for(Node each : nodes){
+//
+//				if( ! each.visited){
+//					//System.out.println(word + "---------------");
+//					generateWord(each, lc, word, nodes);
+//				}
+////				System.out.println(letter);
+//				
+//				
+//			}
+//		}
+//		return move;
+//	}
 	
 	private Move generateMove(Move newWord){
 		if(board.isCenterFree()){
@@ -322,6 +325,14 @@ public class Player {
 			score+= Dic.values.get(each);
 			//score += Dic.values[Dic.alphabet.indexOf(each)];
 		}
+	}
+	
+	/**
+	 * @return hashset containing the valid words contained in the dictionary which
+	 * can be formed with the letters the player has
+	 */
+	public HashSet<String> possibleWords(){
+		return dictionary.possibleWords(piecesOnHand);
 	}
 	
 	public int getScore(){

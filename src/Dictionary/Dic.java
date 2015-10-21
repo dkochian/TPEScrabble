@@ -1,6 +1,7 @@
 package dictionary;
 
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 import files.Reader;
 
@@ -97,4 +98,8 @@ public class Dic {
         
         return sum;
     }
+	
+	public HashSet<String> possibleWords(List<Character> possibleLetters){
+		return dictionary.possibleWords(possibleLetters);
+	}
 }

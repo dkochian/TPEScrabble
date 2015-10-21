@@ -34,8 +34,8 @@ public class Writer {
 			bw.newLine();
 			bw.newLine();
 			
-			for (int i = 0; i < board.BOARD_SIZE; i++) {
-				for(int j = 0; j < board.BOARD_SIZE; j++){
+			for (int i = 0; i < Board.BOARD_SIZE; i++) {
+				for(int j = 0; j < Board.BOARD_SIZE; j++){
 					bw.write(printBoard[i][j].getContent() + " " );
 				}
 				bw.newLine();

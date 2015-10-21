@@ -1,6 +1,11 @@
 package dictionary;
 
-
+/**
+ * Class used to store alphabetic references, used for storing the amount 
+ * of letters or the values of each letter, by accessing the array with 
+ * the char value there is no need to travel through the whole array. 
+ * O(1)
+ */
 public class AlphaStructure {
 	
 	private Integer[] array;
@@ -16,9 +21,6 @@ public class AlphaStructure {
 	public void put(Character c, Integer val){
 		array[c - 'A'] = val;
 	}
-	
-	
-	
 	
 
 }
