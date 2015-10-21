@@ -1,14 +1,15 @@
-package Game;
+package game;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import Board.Board;
-import Board.Square;
-import Dictionary.Dic;
-import Files.Reader;
-import Player.Player;
+import board.Board;
+import board.Square;
+import dictionary.Dic;
+import files.Reader;
+import gui.Scrabble;
+import player.Player;
 
 public class Game {
 	private Board board;

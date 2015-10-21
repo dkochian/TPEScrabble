@@ -1,13 +1,13 @@
-package Player;
+package player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Board.Board;
-import Board.Square;
-import Dictionary.Dic;
-import Game.LetterNode;
-import Game.Move;
+import board.Board;
+import board.Square;
+import dictionary.Dic;
+import game.LetterNode;
+import game.Move;
 
 public class Player {
 	private List<Character> piecesOnHand;
@@ -319,7 +319,8 @@ public class Player {
 	public void addScore(){
 		score = 0;
 		for(Character each : piecesOnBoard){
-			score += Dic.values[Dic.alphabet.indexOf(each)];
+			score+= Dic.values.get(each);
+			//score += Dic.values[Dic.alphabet.indexOf(each)];
 		}
 	}
 	
@@ -332,7 +333,7 @@ public class Player {
 		private char c;
 		private boolean visited;
 		
-		public Node(char c) {
+		public Node(char c){
 			this.c = c;
 			visited = false;
 		}

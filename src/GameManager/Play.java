@@ -1,11 +1,11 @@
-package GameManager;
+package gameManager;
 
 import java.io.IOException;
 
-import Board.Board;
-import Dictionary.Dic;
-import Files.Writer;
-import Game.Game;
+import board.Board;
+import dictionary.Dic;
+import files.Writer;
+import game.Game;
 
 
 

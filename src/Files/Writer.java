@@ -1,12 +1,12 @@
-package Files;
+package files;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import Board.Board;
-import Board.Square;
+import board.Board;
+import board.Square;
 
 public class Writer {
 	

@@ -1,8 +1,8 @@
-package Board;
+package board;
 
 import java.util.HashSet;
 
-import Dictionary.Dic;
+import dictionary.Dic;
 
 
 
@@ -43,7 +43,7 @@ public class Square {
 	private Square nextDown;
 
 	public Square(char content, int row, int column) {
-		this.validPieces = new HashSet<Character>();
+		//this.validPieces = new HashSet<Character>();
 		this.content = content;
 		this.row = row;
 		this.column = column;

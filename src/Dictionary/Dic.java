@@ -1,24 +1,29 @@
-package Dictionary;
+package dictionary;
 
 import java.util.HashMap;
 
-import Files.Reader;
+import files.Reader;
 
 public class Dic {
 	
 	private static Trie dictionary;
-	public final static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	
+	public static AlphaStructure values;
+	
+	//public final static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //private final static int[] values = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
-	private static HashMap<Character, Value> values;
+	//private static HashMap<Character, Value> values;
 	
 	public Dic(){
 		dictionary = new Trie();
-		asignValues();
+		//asignValues();
+		Integer[] vals= {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+		values = new AlphaStructure(vals);
 		Reader.readDictionary(this);
 	}
 
 	
-	public integer getLetterValue(Character letter){
+	public Integer getLetterValue(Character letter){
 		return values.get(letter);
 	}
 	
@@ -26,19 +31,19 @@ public class Dic {
 	/**
 	 * Asigns each letter a value, the key will be the character
 	 */
-	private static void asignValues(){
-		char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-		int[] values = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
-		HashMap<Character, Integer> valuesMap = new HashMap<Character, Integer>();
-		
-		for(int i=0; i<26; i++){
-			valuesMap.put(alphabet[i], values[i]);
-		}
-		/*for(Entry<Character,Integer> entry: valuesMap.entrySet()){
-			System.out.println(entry.getKey() + " " +entry.getValue());
-		}*/
-		this.values = valuesMap;
-	}
+//	private static void asignValues(){
+//		char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+//		int[] values = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+//		HashMap<Character, Integer> valuesMap = new HashMap<Character, Integer>();
+//		
+//		for(int i=0; i<26; i++){
+//			valuesMap.put(alphabet[i], values[i]);
+//		}
+//		/*for(Entry<Character,Integer> entry: valuesMap.entrySet()){
+//			System.out.println(entry.getKey() + " " +entry.getValue());
+//		}*/
+//		this.values = valuesMap;
+//	}
 	
 	/**
 	 * @param word to be added to the dictionary
@@ -82,11 +87,11 @@ public class Dic {
 	private int wordScore(String word) {
 	
         int sum = 0;
-        
+        word = word.toUpperCase();
         for(int i = 0; i < word.length();i++) {
         	
-        		sum+= values.get(alphabet.indexOf(word.charAt(i).toUpper()));
-        		
+        		//sum+= values.get(alphabet.indexOf(word.charAt(i).toUpper()));
+        		sum+=values.get(word.charAt(i));
         		//sum += values[alphabet.indexOf(word.charAt(i))];
         }
         

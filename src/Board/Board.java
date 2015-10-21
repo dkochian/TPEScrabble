@@ -1,8 +1,8 @@
-package Board;
+package board;
 public class Board {
 
 	private Square[][] board;
-	public final int BOARD_SIZE = 15;
+	public static final int BOARD_SIZE = 15;
 
 
 	public Board()
