@@ -107,25 +107,26 @@ public class Trie {
 	}
 
 	protected HashSet<String> possibleWords(List<Character> possibleLetters){
+		
 		HashSet<String> words = new HashSet<String>();
+		System.out.println(possibleLetters.toString());
 		for(TrieNode node: root.children.values())
 			possibleWords(node, possibleLetters, words, new StringBuffer());
 		return words;
-
 	}
 
 	private void possibleWords(TrieNode node, List<Character> letters, HashSet<String> words, StringBuffer currWord){
-		
+		System.out.println(currWord.toString());
 		if( !letters.contains(node.c))
-			return;
-
-		if(node.isEndNode())
-			words.add(currWord.toString());
-		
-		if(node.children == null)
 			return;
 		
 		currWord.append(node.c);
+		if(node.isEndNode())
+			words.add(currWord.toString());
+		
+		if(node.children.isEmpty())
+			return;
+		
 		letters.remove(node.c);
 		for(TrieNode child: node.children.values()){
 			possibleWords(child, letters, words, currWord);

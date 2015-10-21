@@ -100,6 +100,8 @@ public class Dic {
     }
 	
 	public HashSet<String> possibleWords(List<Character> possibleLetters){
+		System.out.println("entro en dic");
+		
 		return dictionary.possibleWords(possibleLetters);
 	}
 }

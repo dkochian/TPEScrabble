@@ -13,6 +13,9 @@ public class Play {
 	public static void main(String[] args) {
 		long seconds = 1;
 		Game game = new Game();
+		
+		System.out.println("plbs posibles");
+		game.play2();
 		if(game.getDictionary() != null){
 			//Un ciclo para que busque el mejor tablero, y ese mejor tablero haga el write
 			Board gameBoard = game.play(seconds);
@@ -24,7 +27,6 @@ public class Play {
 			}
 		}
 		
-
 	}
 
 }

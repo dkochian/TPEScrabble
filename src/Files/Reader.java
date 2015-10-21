@@ -21,7 +21,7 @@ public class Reader {
 		try {			
 			String sCurrentLine;
 
-			br = new BufferedReader(new FileReader("dictionary.txt"));
+			br = new BufferedReader(new FileReader("/Users/natinavas/Documents/ITBA/EDA/TPEScrabble/bin/dictionary.txt"));
 
 			while ((sCurrentLine = br.readLine()) != null) {
 				if(sCurrentLine.length() >= 2 && sCurrentLine.length() <= 7){
@@ -54,7 +54,7 @@ public class Reader {
 
 			int sCurrentLetter;
 
-			br = new BufferedReader(new FileReader("letters.txt"));
+			br = new BufferedReader(new FileReader("/Users/natinavas/Documents/ITBA/EDA/TPEScrabble/bin/letters.txt"));
 
 			while ((sCurrentLetter = br.read()) != -1) {
 				

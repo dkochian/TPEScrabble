@@ -1,5 +1,6 @@
 package game;
 
+import java.util.HashSet;
 import java.util.List;
 
 import board.Board;
@@ -23,6 +24,25 @@ public class Game {
 		this.computer = new Player(board, letters, dictionary);
 		this.gui = new Scrabble(this.board);
 	}
+	
+	
+	public Board play2(){
+		Board bestBoard = new Board();
+		HashSet<String> possibleWords = computer.possibleWords();
+		
+		System.out.println(possibleWords.toString());
+		
+		for(String word: possibleWords){
+			
+		}
+		
+		
+		
+		return bestBoard;
+	}
+	
+	
+	
 	
 	public Board play(long seconds){
 		boolean gameOver = false;
