@@ -62,6 +62,9 @@ public class Board {
 		return square.getContent() == Square.OUT_BOUNDS;
 	}
 
+	public ArrayList<Square> getAllSquares(){
+		return placedSquares;
+	}
 
 	public Square getSquare(int row, int column) {
 		return board[row][column];
@@ -99,6 +102,37 @@ public class Board {
 			}
 		}
 		return transposed;
+	}
+	
+	public static boolean verifyNotTransp(Board board, String word, Square sq, int indexOfLetter){
+		
+		int row=sq.getRow();
+		int col=sq.getColumn();
+		
+		for(int i=indexOfLetter+1; i<word.length(); i++){
+			if(!board.board[row][col+i].getContent().equals('.') && !board.board[row][col+i].getContent().equals(word.charAt(i)))
+				return false;
+		}	
+		for(int i=indexOfLetter-1; i>0; i--){
+			if(!board.board[row][col-i].getContent().equals('.') && !board.board[row][col-i].getContent().equals(word.charAt(i)))
+				return false;
+		}
+		
+		return true; 
+	}
+	public static boolean verifyTransp(Board board, String word, Square sq, int indexOfLetter){
+		
+		int row=sq.getRow();
+		int col=sq.getColumn();
+		for(int i=indexOfLetter +1; i<word.length(); i++){
+			if(!board.board[row+i][col].getContent().equals('.') && !board.board[row+i][col].getContent().equals(word.charAt(i)))
+				return false;
+		}
+		for(int i=indexOfLetter -1; i>0; i--){
+			if(!board.board[row-i][col].getContent().equals('.') && !board.board[row-i][col].getContent().equals(word.charAt(i)))
+				return false;
+		}
+		return true;
 	}
 }
 

@@ -10,7 +10,7 @@ public class Square {
 	/**
 	 * Content of the square
 	 */
-	private char content;
+	private Character content;
 	/**
 	 * Row where the square is located
 	 */
@@ -100,7 +100,7 @@ public class Square {
 		return ! containsLetter();
 	}
 
-	public char getContent() {
+	public Character getContent() {
 		return content;
 	}
 

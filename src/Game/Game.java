@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -64,10 +65,51 @@ public class Game {
 				}
 			}
 		}
-		
-		
-		
 		return bestBoard;
+	}
+	
+	
+	public void exactSolver(HashSet<String> words, ArrayList<Character> letters, Board board, Board bestBoard, Integer bestScore){
+
+		for(String word: words){
+			
+			for(int i=0; i<word.length(); i++){
+				for(Square square : board.getAllSquares()){
+					if(locateLetter(word.charAt(i), board, square) == 1){
+						if(Board.verifyNotTransp(board, word, square, i)){
+							//meto la palabra longitudinalmente
+							//llamo a la funcion sin las letras y con la palabra
+							//metida en el board
+						}
+					}
+					if(locateLetter(word.charAt(i), board, square) == -1){
+						if(Board.verifyNotTransp(board, word, square, i)){
+							//meto la palabra verticalmente
+							//llamo a la funcion sin las letras y con la palabra
+							//metida en el board
+						}
+					}
+				}
+
+
+
+			}
+		}
+	}
+		
+		
+	
+	
+	private Integer locateLetter(Character letter, Board board, Square sq){
+		
+			if( sq.getContent().equals(letter)){
+				if(sq.getRight() == null && sq.getLeft() == null){
+					return 1;
+				}if(sq.getDown() == null && sq.getUp() == null){
+					return -1;
+				}
+			}
+		return 0;
 	}
 	
 	
