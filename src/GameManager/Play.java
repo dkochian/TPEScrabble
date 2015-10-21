@@ -12,15 +12,14 @@ import Game.Game;
 public class Play {
 		
 	public static void main(String[] args) {
-//		Dic test = new Dic();
-//		System.out.println(test.checkWord("ho"));
-//		System.out.println(test.startsWith("ho"));
+		long seconds = 1;
 		Game game = new Game();
 		if(game.getDictionary() != null){
 			//Un ciclo para que busque el mejor tablero, y ese mejor tablero haga el write
-			Board gameBoard = game.play();
+			Board gameBoard = game.play(seconds);
 			try {
 				Writer.write("Board", gameBoard);
+				System.exit(0);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

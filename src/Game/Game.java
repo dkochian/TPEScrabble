@@ -25,25 +25,46 @@ public class Game {
 		this.gui = new Scrabble(this.board);
 	}
 	
-	public Board play(){
+	public Board play(long seconds){
 		boolean gameOver = false;
 		int score = 0;
-		while (! gameOver) {
-			boolean successfulMove = playTurn();
+		
+		
+		long start = System.currentTimeMillis();
+		long end = start + seconds*1000; // 60 seconds * 1000 ms/sec
+		
+		
+		
+		while (! gameOver){
+			
+			try {
+				Thread.sleep(2000);                 //1000 milliseconds is one second.
+			} catch(InterruptedException ex) {
+				Thread.currentThread().interrupt();
+			}
+			
+			boolean successfulMove = false;
+			if(System.currentTimeMillis() < end){
+				successfulMove = playTurn();
+			}
+			
 			if(! successfulMove || computer.placedAllPieces()){
 				gameOver = true;
 				continue;
-			}			
+			}
+
 			gui.updateBoard();
 
 			board.printBoard();
-			
 			System.out.println();			
+
 			System.out.println("----------------------------------");
 			System.out.println();
+
+			score = computer.getScore();
+			gui.updateScores(score);
+
 		}
-		score = computer.getScore();
-		gui.updateScores(score);
 		return this.board;
 	}
 

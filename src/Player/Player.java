@@ -317,6 +317,7 @@ public class Player {
 	}
 	
 	public void addScore(){
+		score = 0;
 		for(Character each : piecesOnBoard){
 			score += Dic.values[Dic.alphabet.indexOf(each)];
 		}
