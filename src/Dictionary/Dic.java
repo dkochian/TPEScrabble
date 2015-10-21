@@ -8,7 +8,6 @@ import files.Reader;
 public class Dic {
 	
 	private static Trie dictionary;
-	
 	public static AlphaStructure values;
 	
 	//public final static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

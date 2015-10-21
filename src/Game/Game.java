@@ -27,13 +27,42 @@ public class Game {
 	
 	
 	public Board play2(){
+		
 		Board bestBoard = new Board();
+		//Integer bestScore = 0;
 		HashSet<String> possibleWords = computer.possibleWords();
 		
 		System.out.println(possibleWords.toString());
 		
 		for(String word: possibleWords){
 			
+			if(board.isCenterFree()){
+				char[] charWord = word.toCharArray();
+				
+				for(int i=0; i<word.length(); i++){
+					
+					Character letter = word.charAt(i);
+					int row=7, col=7;
+					Square center = new Square(letter, row, col);
+					Square sq2 = center;
+					board.placePiece(letter, center, false);
+					for(int j=i+1; i<word.length() - i; j++){
+						Square sq = new Square(charWord[j], row, 7+j);
+						sq.setLeft(sq2);
+						board.placePiece(charWord[j], sq, false);
+						sq2.setRight(sq);
+						sq2=sq;	
+					}
+					sq2 = center;
+					for(int j=i-1; j>word.length() - i; j--){
+						Square sq=new Square(charWord[j], row, j);
+						sq.setRight(sq2);
+						board.placePiece(charWord[j], sq, false);
+						sq2.setLeft(sq);
+						sq2=sq;
+					}
+				}
+			}
 		}
 		
 		

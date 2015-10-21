@@ -131,4 +131,37 @@ public class Square {
 	public void setCenterSquare() {
 		this.content = Square.CENTER_SQUARE;
 	}
+
+	public Square getLeft() {
+		return nextLeft;
+	}
+
+	public void setLeft(Square nextLeft) {
+		this.nextLeft = nextLeft;
+	}
+
+	public Square getRight() {
+		return nextRight;
+	}
+
+	public void setRight(Square nextRight) {
+		this.nextRight = nextRight;
+	}
+
+	public Square getUp() {
+		return nextUp;
+	}
+
+	public void setUp(Square nextUp) {
+		this.nextUp = nextUp;
+	}
+
+	public Square getDown() {
+		return nextDown;
+	}
+
+	public void setDown(Square nextDown) {
+		this.nextDown = nextDown;
+	}
+	
 }

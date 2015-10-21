@@ -1,9 +1,12 @@
 package board;
+
+import java.util.ArrayList;
+
 public class Board {
 
 	private Square[][] board;
 	public static final int BOARD_SIZE = 15;
-
+	private ArrayList<Square> placedSquares= new ArrayList<Square>();
 
 	public Board()
 	{
@@ -39,13 +42,16 @@ public class Board {
 	}
 
 	/**
-	 * 
 	 * @param letter to be placed
 	 * @param square where letter will be placed
 	 * @param transposed 
 	 */
 	public void placePiece(char letter, Square square, boolean transposed) {
+		
 		square.setContent(letter, transposed);
+		//KOCHI FIJATE SI TE PARECE ESTO, no entiendo como ahces sino, no usas el board
+		board[square.getRow()][square.getColumn()] = square;
+		placedSquares.add(square);
 	}
 
 	/**
@@ -80,6 +86,7 @@ public class Board {
 		return this.board;
 	}
 	
+	//no entiendo se seta comparando un string con un square...
 	public boolean isCenterFree(){
 		return board[7][7].equals("7");
 	}
