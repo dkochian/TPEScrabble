@@ -11,19 +11,19 @@ import Game.Move;
 
 public class Player {
 	private List<Character> piecesOnHand;
+	private List<Character> piecesOnBoard;
 	private Board board;
 	private int score = 0;
 	private List<Move> moves;
 	private Dic dictionary;
-	private List<Character> piecesOnBoard;
-	private int hola = 0;//para crear las palabras
+	private int hola = 0;	
 
 	public Player(Board board, List<Character> letters, Dic dictionary) {
 		this.board = board;
 		this.piecesOnHand = letters;
 		this.moves = new ArrayList<>();
-		this.dictionary = dictionary;
 		this.piecesOnBoard = new ArrayList<Character>();
+		this.dictionary = dictionary;
 	}
 	
 	public boolean placedAllPieces() {
@@ -31,7 +31,7 @@ public class Player {
 	}
 	
 	public Move generateMove(){
-	Move newMove = null;
+		Move newMove = null;
 		
 //		List<Character> piecesOnHandAux = new ArrayList<>();
 //		piecesOnHandAux.addAll(piecesOnHand);
@@ -114,7 +114,7 @@ public class Player {
 	
 	
 
-	private Move generateWord(Node letter, LetterNode lc, StringBuffer word, List<Node> nodes){
+	private Move generateWord(Node letter, LetterNode lc, StringBuffer word, List<Node> nodes){//Este metodo no va
 		//System.out.println(word);
 		Move move = null;
 
@@ -178,10 +178,12 @@ public class Player {
 	}
 	
 	private Move generateMove(Move newWord, int row, int column){
+
+		
 		if(newWord.isTransposed()){
-			newWord.setEndSquare(new Square(newWord.getLetterNode().getLetter(), row /*+ prom*/, column));
+			newWord.setEndSquare(new Square(newWord.getLetterNode().getLetter(), row , column));
 		}else{
-			newWord.setEndSquare(new Square(newWord.getLetterNode().getLetter(), row, column /*+ prom*/));
+			newWord.setEndSquare(new Square(newWord.getLetterNode().getLetter(), row, column ));
 		}
 
 		return newWord;
@@ -189,10 +191,9 @@ public class Player {
 	
 	private Move generateHMove(Move newWord){
 		boolean transposed = false;
-		this.board.calculateAllValidPieces(transposed);
 		
-		for (int row = 0; row < board.BOARD_SIZE; row++) {
-			for (int column = 0; column < board.BOARD_SIZE; column++) {
+		for (int row = 0; row < Board.BOARD_SIZE; row++) {
+			for (int column = 0; column < Board.BOARD_SIZE; column++) {
 				Square square = board.getSquare(row, column);
 				
 				if( square.containsLetter() &&  ! square.getNextRight(transposed).containsLetter() && ! square.getNextLeft(transposed).containsLetter()){
@@ -202,8 +203,6 @@ public class Player {
 					for(int i = 0; i < newWord.getWord().length; i++){
 						newWord.setTransposed(transposed);
 						if(letter.equals(newWord.getWord()[i]) && verify(newWord, i, row, column)){
-						
-							
 							newWord = generateMove(newWord, row, column + (newWord.getWord().length - i - 1));
 							return newWord;
 						}
@@ -215,41 +214,68 @@ public class Player {
 	}
 	
 	private boolean verify(Move newWord, int indexLetterFound, int row, int column){
+		int rowAux = row;
+		int columnAux = column;
+		
 		for(int i = indexLetterFound - 1 ; i >= 0; i--){
-			Character letter = newWord.getWord()[i];
+			Square sq = null;
 			if(newWord.isTransposed()){
-				if(letter.equals(board.getSquare( -- row, column).getContent())){
-					return false;
-				}
+				sq = board.getSquare( -- rowAux, columnAux);
 			}else{
-				if(letter.equals(board.getSquare(row, -- column).getContent())){
-					return false;
-				}
+				sq = board.getSquare( rowAux, -- columnAux);
 			}
+				
+			if(i == 0 && ! sq.getNextLeft( newWord.isTransposed()).isEmpty()){
+				return checkWord(sq, newWord.isTransposed());
+			}
+			if( ! sq.getNextLeft( ! newWord.isTransposed() ).isEmpty() || ! sq.getNextRight( ! newWord.isTransposed() ).isEmpty()){//Si es horizontal tiene que buscar arriba y abajo, si es vertical tiene q buscar izquierda y derecha
+				return checkWord(sq, ! newWord.isTransposed());
+			}
+
 		}
+		int rowAux2 = row;
+		int columnAux2 = column;
 		
 		for(int i = indexLetterFound + 1; i < newWord.getWord().length; i++){
-			Character letter = newWord.getWord()[i];
+			Square sq = null;
 			if(newWord.isTransposed()){
-				if(letter.equals(board.getSquare( ++ row, column).getContent())){
-					return false;
-				}
+				sq = board.getSquare( ++ rowAux2, columnAux);
 			}else{
-				if(letter.equals(board.getSquare(row, ++ column).getContent())){
-					return false;
-				}
+				sq = board.getSquare( rowAux, ++ columnAux2);
+			}
+				
+			if(i == newWord.getWord().length && ! sq.getNextLeft( newWord.isTransposed()).isEmpty()){
+				return checkWord(sq, newWord.isTransposed());
+			}
+			if( ! sq.getNextLeft( ! newWord.isTransposed() ).isEmpty() || ! sq.getNextRight( ! newWord.isTransposed() ).isEmpty()){//Si es horizontal tiene que buscar arriba y abajo, si es vertical tiene q buscar izquierda y derecha
+				return checkWord(sq, ! newWord.isTransposed());
 			}
 		}
 		
 		return true;
 	}
 	
+	private boolean checkWord(Square sq, boolean transposed){//Aprovecho el while que estoy recorriendo para arriba de todo para appendear sino deberia hacer otro while despues para bajar todo de vuelta
+		Square sqAux = sq;
+		StringBuffer word = new StringBuffer();
+		while( ! sqAux.isEmpty()){
+			word.append(sqAux.getContent());
+			sqAux = sqAux.getNextLeft(transposed);
+		}
+		word = word.reverse();
+		while( ! sq.isEmpty()){
+			word.append(sqAux.getContent());
+			sq = sq.getNextLeft(transposed);
+		}
+		
+		return Dic.isValidWord(word.toString());
+	}
+	
 	private Move generateVMove(Move newWord){
 		boolean transposed = true;
-		this.board.calculateAllValidPieces(transposed);
 
-		for (int row = 0; row < board.BOARD_SIZE; row++) {
-			for (int column = 0; column < board.BOARD_SIZE; column++) {
+		for (int row = 0; row < Board.BOARD_SIZE; row++) {
+			for (int column = 0; column < Board.BOARD_SIZE; column++) {
 				Square square = board.getSquare(row, column);
 				
 				if( square.containsLetter() &&  ! square.getNextRight(transposed).containsLetter() && !square.getNextLeft(transposed).containsLetter()){
@@ -267,11 +293,9 @@ public class Player {
 		}
 		return null;
 	}
-	
-	
-	
 
 	public boolean removePieceFromHand(char letter) {
+
 		int charIndex = findLetterIndexInTilesOnHand(letter);
 
 		if (charIndex < 0)

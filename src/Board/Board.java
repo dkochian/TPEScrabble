@@ -68,9 +68,7 @@ public class Board {
 	public void printBoard() {
 		for (Square[] row : this.board) {
 			for (Square cell : row) {
-				//if (cell.containsLetter()) {
-					System.out.print(cell.getContent());
-				//}
+				System.out.print(cell.getContent());
 				System.out.print("\t");
 			}
 			System.out.println();

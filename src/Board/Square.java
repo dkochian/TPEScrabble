@@ -24,9 +24,6 @@ public class Square {
 	 * Column where the square is located
 	 */
 	private int column;
-
-	
-	private HashSet<Character> validPieces;
 	
 	/**
 	 * Square to the left
@@ -50,7 +47,6 @@ public class Square {
 		this.content = content;
 		this.row = row;
 		this.column = column;
-		initValidPieces();
 	}
 
 	/**
@@ -96,66 +92,6 @@ public class Square {
 		this.content = content;
 	}
 
-	
-	
-	public void calculateValidPieces(boolean transposed) {
-		String wordDownwards = "";
-		String wordUpwards = "";
-
-		Square downSquare = getNextDown(transposed);
-		Square upSquare = getNextUp(transposed);
-
-		if (downSquare != null && downSquare.containsLetter()) {
-			wordDownwards = verticalWord(downSquare, true, transposed);
-		}
-
-		if (upSquare != null && upSquare.containsLetter()) {
-			wordUpwards = verticalWord(upSquare, false, transposed);
-		}
-
-		validPieces.clear();
-		if (wordUpwards.equals("") && wordDownwards.equals("")) {
-			initValidPieces();
-		} else {
-			for (int i = 0; i < Dictionary.Dic.alphabet.length() ; i++) {
-				char letter = (char) Dictionary.Dic.alphabet.indexOf(i);
-
-				String checkWord = wordUpwards + letter + wordDownwards;
-				
-				if (Dic.isValidWord(checkWord))
-					validPieces.add((char) Dictionary.Dic.alphabet.indexOf(i));
-			}
-		}
-	}
-
-	/**
-	 * Adds all the possible pieces in the square
-	 */
-	public void initValidPieces() {
-		for (int i = 0; i < Dictionary.Dic.alphabet.length(); i++) {
-			validPieces.add((char) Dictionary.Dic.alphabet.indexOf(i));
-		}
-	}
-
-	/**
-	 * @param square
-	 * @param wordDown
-	 * @param transposed
-	 * @return content of the vertical word which contains the square
-	 */
-	public String verticalWord(Square square, boolean wordDown,	boolean transposed) {
-		if (square == null || !square.containsLetter())
-			return "";
-
-		char letter = square.getContent();
-
-		if (! wordDown) {
-			return verticalWord(square.getNextUp(transposed), wordDown,	transposed) + letter;
-		} else {
-			return letter + verticalWord(square.getNextDown(transposed), wordDown, transposed);
-		}
-	}
-
 	/**
 	 * @return true if the square does not contain a blank space
 	 */
@@ -172,20 +108,6 @@ public class Square {
 	public char getContent() {
 		return content;
 	}
-
-	
-	public HashSet<Character> getValidPieces() {
-		return validPieces;
-	}
-
-	/**
-	 * @param letter
-	 * @return true if the letter is a possible valid value
-	 */
-	public boolean validPiecesContains(char letter) {
-		return validPieces.contains(letter);
-	}
-
 
 	public int getColumn() {
 		return this.column;
