@@ -1,8 +1,8 @@
-package Board;
+package board;
 
 import java.util.HashSet;
 
-import Dictionary.Dic;
+import dictionary.Dic;
 
 
 
@@ -11,7 +11,6 @@ public class Square {
 	public static final char EMPTY = 48;
 	public static final char OUT_BOUNDS = 48;
 	public static final char CENTER_SQUARE = 55;
-
 	/**
 	 * Content of the square
 	 */
@@ -32,14 +31,17 @@ public class Square {
 	 * Square to the left
 	 */
 	private Square nextLeft;
+	
 	/**
 	 * Square to the right
 	 */
 	private Square nextRight;
+	
 	/**
 	 * Square over this one
 	 */
 	private Square nextUp;
+	
 	/**
 	 * Square under this one
 	 */
@@ -96,8 +98,6 @@ public class Square {
 		this.content = content;
 	}
 
-	
-	
 	public void calculateValidPieces(boolean transposed) {
 		String wordDownwards = "";
 		String wordUpwards = "";
@@ -117,13 +117,13 @@ public class Square {
 		if (wordUpwards.equals("") && wordDownwards.equals("")) {
 			initValidPieces();
 		} else {
-			for (int i = 0; i < Dictionary.Dic.alphabet.length() ; i++) {
-				char letter = (char) Dictionary.Dic.alphabet.indexOf(i);
+			for (int i = 0; i < dictionary.Dic.alphabet.length() ; i++) {
+				char letter = (char) dictionary.Dic.alphabet.indexOf(i);
 
 				String checkWord = wordUpwards + letter + wordDownwards;
 				
 				if (Dic.isValidWord(checkWord))
-					validPieces.add((char) Dictionary.Dic.alphabet.indexOf(i));
+					validPieces.add((char) dictionary.Dic.alphabet.indexOf(i));
 			}
 		}
 	}
@@ -132,8 +132,8 @@ public class Square {
 	 * Adds all the possible pieces in the square
 	 */
 	public void initValidPieces() {
-		for (int i = 0; i < Dictionary.Dic.alphabet.length(); i++) {
-			validPieces.add((char) Dictionary.Dic.alphabet.indexOf(i));
+		for (int i = 0; i < dictionary.Dic.alphabet.length(); i++) {
+			validPieces.add((char) dictionary.Dic.alphabet.indexOf(i));
 		}
 	}
 
@@ -160,8 +160,10 @@ public class Square {
 	 * @return true if the square does not contain a blank space
 	 */
 	public boolean containsLetter() {
+
 		return content != '.' && content != '7';
 	}
+	
 	/**
 	 * @return true if the square is empty
 	 */

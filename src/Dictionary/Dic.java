@@ -1,45 +1,47 @@
-package Dictionary;
+package dictionary;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
-import Files.Reader;
+import files.Reader;
 
 public class Dic {
 	
 	private static Trie dictionary;
 	public final static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    //private final static int[] values = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
-	private static HashMap<Character, Value> values;
+    public final static int[] values = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+	//private static HashMap<Character, Integer> values;
 	
 	public Dic(){
 		dictionary = new Trie();
-		asignValues();
+		//asignValues();
 		Reader.readDictionary(this);
 	}
 
 	
-	public integer getLetterValue(Character letter){
+/*	public Integer getLetterValue(Character letter){
 		return values.get(letter);
-	}
+	}*/
 	
 	
 	/**
 	 * Asigns each letter a value, the key will be the character
 	 */
-	private static void asignValues(){
-		char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-		int[] values = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
-		HashMap<Character, Integer> valuesMap = new HashMap<Character, Integer>();
-		
-		for(int i=0; i<26; i++){
-			valuesMap.put(alphabet[i], values[i]);
-		}
-		/*for(Entry<Character,Integer> entry: valuesMap.entrySet()){
-			System.out.println(entry.getKey() + " " +entry.getValue());
-		}*/
-		this.values = valuesMap;
-	}
-	
+//	private static void asignValues(){
+//		char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+//		int[] valuesAux = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+//		HashMap<Character, Integer> valuesMap = new HashMap<Character, Integer>();
+//		
+//		for(int i=0; i<26; i++){
+//			valuesMap.put(alphabet[i], valuesAux[i]);
+//		}
+//		/*for(Entry<Character,Integer> entry: valuesMap.entrySet()){
+//			System.out.println(entry.getKey() + " " +entry.getValue());
+//		}*/
+//		values = valuesMap;
+//	}
+//	
 	/**
 	 * @param word to be added to the dictionary
 	 */
@@ -82,14 +84,21 @@ public class Dic {
 	private int wordScore(String word) {
 	
         int sum = 0;
-        
+        word = word.toUpperCase();
         for(int i = 0; i < word.length();i++) {
-        	
-        		sum+= values.get(alphabet.indexOf(word.charAt(i).toUpper()));
-        		
-        		//sum += values[alphabet.indexOf(word.charAt(i))];
+        		//sum+= values.get(alphabet.indexOf(word.charAt(i)));
+        		sum += values[alphabet.indexOf(word.charAt(i))];
         }
         
         return sum;
     }
+	
+	public HashSet<String> getPossibleWords(List<Character> availablePieces){
+		HashSet<String> awns = dictionary.getPossibleWords(availablePieces);
+		
+		return awns;
+	}
+	
+	
+
 }

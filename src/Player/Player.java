@@ -1,13 +1,15 @@
-package Player;
+package player;
+
+import game.LetterNode;
+import game.Move;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-import Board.Board;
-import Board.Square;
-import Dictionary.Dic;
-import Game.LetterNode;
-import Game.Move;
+import dictionary.Dic;
+import board.Board;
+import board.Square;
 
 public class Player {
 	private List<Character> piecesOnHand;
@@ -30,8 +32,8 @@ public class Player {
 		return piecesOnHand.size() == 0;
 	}
 	
+	
 	public Move generateMove(){
-	Move newMove = null;
 		
 //		List<Character> piecesOnHandAux = new ArrayList<>();
 //		piecesOnHandAux.addAll(piecesOnHand);
@@ -93,10 +95,10 @@ public class Player {
 
 			newWord = new Move(word.toString().toCharArray(), lc, null, false);//generateWord(each, null, word, nodes);
 		}
-			
+		
 		if(newWord != null){
 
-			newMove = generateMove(newWord);
+			Move newMove = generateMove(newWord);
 
 			if(newMove != null){
 				moves.add(newMove);
@@ -110,14 +112,46 @@ public class Player {
 		return null;
 	}
 	
+	//no las tengo guardades un una collection
+	/**
+	 * @return HashSet containing the words which the player could use with the 
+	 * available letters, does not take into account the current disposition of 
+	 * the board
+	 */
+	/*public HashSet<String> getPossibleWords(){
+		
+		HashSet<String> vldWrds = new HashSet<String>();
+		
+		for(String word: dictionary.dictionary){
+			
+			Character[] wordAux = word.toCharArray();
+			boolean valid = true;
+			
+			for(int i=0; i<word.length() && valid; i++){
+				if(!piecesOnHand.contains(wordAux[i])){
+					valid = false;
+				}
+				else if(i == word.length() - 1){
+					vldWrds.add(word);
+				}
+			}
+		}
+		return vldWrds;
+	}*/
 	
-	
+	/**
+	 * @return hashset with valid words that can be created with the 
+	 * pieces available
+	 */
+	public HashSet<String> getPossibleWords(){
+		HashSet<String> awns = dictionary.getPossibleWords(piecesOnHand);
+		return awns;
+	}
 	
 
 	private Move generateWord(Node letter, LetterNode lc, StringBuffer word, List<Node> nodes){
 		//System.out.println(word);
 		Move move = null;
-
 		
 		StringBuffer wordAux = new StringBuffer();
 		wordAux.append(word);
@@ -125,7 +159,6 @@ public class Player {
 		System.out.println(String.valueOf(wordAux));
 		
 		if(Dic.isValidWord(wordAux.toString())){
-			System.out.println("entra");
 			move = new Move(word.toString().toCharArray(), lc, null, false);
 			return move;
 		}
@@ -158,6 +191,7 @@ public class Player {
 	
 	private Move generateMove(Move newWord){
 		if(board.isCenterFree()){
+			System.out.println("llegueee");
 			int prom;
 			if(newWord.getWord().length % 2 == 0){
 				prom = ((newWord.getWord().length)/2) - 1;
@@ -189,7 +223,7 @@ public class Player {
 	
 	private Move generateHMove(Move newWord){
 		boolean transposed = false;
-		this.board.calculateAllValidPieces(transposed);
+//		this.board.calculateAllValidPieces(transposed);
 		
 		for (int row = 0; row < board.BOARD_SIZE; row++) {
 			for (int column = 0; column < board.BOARD_SIZE; column++) {
@@ -246,7 +280,7 @@ public class Player {
 	
 	private Move generateVMove(Move newWord){
 		boolean transposed = true;
-		this.board.calculateAllValidPieces(transposed);
+//		this.board.calculateAllValidPieces(transposed);
 
 		for (int row = 0; row < board.BOARD_SIZE; row++) {
 			for (int column = 0; column < board.BOARD_SIZE; column++) {
@@ -294,6 +328,7 @@ public class Player {
 	
 	public void addScore(){
 		for(Character each : piecesOnBoard){
+			//score += dictionary.getLetterValue(each);
 			score += Dic.values[Dic.alphabet.indexOf(each)];
 		}
 	}

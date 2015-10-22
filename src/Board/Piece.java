@@ -1,4 +1,4 @@
-package Board;
+package board;
 
 /**
  * Represents the games pieces, containing the piece's score and letter

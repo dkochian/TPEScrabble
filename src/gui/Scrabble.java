@@ -12,11 +12,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import Board.Board;
-import Board.Square;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import board.Board;
+import board.Square;
 
 
 public class Scrabble extends JFrame {

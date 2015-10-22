@@ -1,4 +1,4 @@
-package Files;
+package files;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Dictionary.Dic;
+import dictionary.Dic;
 
 
 
@@ -21,7 +21,7 @@ public class Reader {
 		try {			
 			String sCurrentLine;
 
-			br = new BufferedReader(new FileReader("dictionary.txt"));
+			br = new BufferedReader(new FileReader("/Users/natinavas/Documents/ITBA/EDA/TPEScrabble/src/dictionary.txt"));
 
 			while ((sCurrentLine = br.readLine()) != null) {
 				if(sCurrentLine.length() >= 2 && sCurrentLine.length() <= 7){
@@ -54,7 +54,7 @@ public class Reader {
 
 			int sCurrentLetter;
 
-			br = new BufferedReader(new FileReader("letters.txt"));
+			br = new BufferedReader(new FileReader("/Users/natinavas/Documents/ITBA/EDA/TPEScrabble/src/letters.txt"));
 
 			while ((sCurrentLetter = br.read()) != -1) {
 				

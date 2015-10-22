@@ -1,8 +1,8 @@
-package Board;
+package board;
 public class Board {
 
 	private Square[][] board;
-	public final int BOARD_SIZE = 15;
+	public final static int BOARD_SIZE = 15;
 
 
 	public Board()
@@ -12,9 +12,7 @@ public class Board {
 
 	private void initBoard() {
 		
-		board = new Square[BOARD_SIZE][BOARD_SIZE];
-		
-
+		this.board = new Square[BOARD_SIZE][BOARD_SIZE];
 		for (int row = 0; row < BOARD_SIZE; row++) {
 			for (int column = 0; column < BOARD_SIZE; column++) {
 				board[row][column] = new Square('.', row, column);
@@ -83,7 +81,7 @@ public class Board {
 	}
 	
 	public boolean isCenterFree(){
-		return board[7][7].equals("7");
+		return board[7][7].getContent() == '7';
 	}
 
 	public Square[][] getTransposedBoard() {

@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import Board.Square;
+import board.Square;
 
 public class Move {
 
