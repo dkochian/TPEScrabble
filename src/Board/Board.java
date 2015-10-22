@@ -46,12 +46,16 @@ public class Board {
 	 * @param square where letter will be placed
 	 * @param transposed 
 	 */
-	public void placePiece(char letter, Square square, boolean transposed) {
-		
-		square.setContent(letter, transposed);
-		//KOCHI FIJATE SI TE PARECE ESTO, no entiendo como ahces sino, no usas el board
-		board[square.getRow()][square.getColumn()] = square;
-		placedSquares.add(square);
+//	public void placePiece(char letter, Square square, boolean transposed) {
+//		square.setContent(letter, transposed);
+//		placedSquares.add(square);
+//	}
+	
+	//cambie que se pase la ubicacion en el tablero y no el square porqeu me parecio mas objetoso
+	public void placePiece(char letter, int fil, int col, boolean transposed){
+		Square sq = board[fil][col];
+		sq.setContent(letter, transposed);
+		placedSquares.add(sq);
 	}
 
 	/**
@@ -134,5 +138,32 @@ public class Board {
 		}
 		return true;
 	}
+	
+	public void putWordNotTransposed(String word, Square firstLetterSq){
+		
+		int row = firstLetterSq.getRow();
+		int col = firstLetterSq.getColumn();
+		
+		for(int i=0; i<word.length(); i++){
+			if(board[row][col+i].getContent().equals('.')){
+				placePiece(word.charAt(i), row, col+i, false);
+			}else if(!board[row][col+i].getContent().equals(word.charAt(i)))
+				System.out.println("no esta funcionando");
+		}
+	}
+	
+	public void putWordTransposed(String word, Square firstLetterSq){
+		
+		int row = firstLetterSq.getRow();
+		int col = firstLetterSq.getColumn();
+		
+		for(int i=0; i<word.length(); i++){
+			if(board[row+i][col].getContent().equals('.')){
+				placePiece(word.charAt(i), row, col+i, false);
+			}else if(!board[row+i][col].getContent().equals(word.charAt(i)))
+				System.out.println("no esta funcionando");
+		}
+	}
+	
 }
 

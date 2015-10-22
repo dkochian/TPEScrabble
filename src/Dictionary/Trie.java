@@ -37,6 +37,7 @@ public class Trie {
 
 			//set leaf node
 			if(i == word.length()-1){
+				System.out.println("is end node");
 				t.isEndNode = true; 
 			}
 		}
@@ -110,13 +111,16 @@ public class Trie {
 		
 		HashSet<String> words = new HashSet<String>();
 		System.out.println(possibleLetters.toString());
-		for(TrieNode node: root.children.values())
-			possibleWords(node, possibleLetters, words, new StringBuffer());
+		for(TrieNode node: root.children.values()){
+			List<Character> auxLetters = possibleLetters;
+			possibleWords(node, auxLetters, words, new StringBuffer());
+		}
+		System.out.println(words.toString());
 		return words;
 	}
 
 	private void possibleWords(TrieNode node, List<Character> letters, HashSet<String> words, StringBuffer currWord){
-		System.out.println(currWord.toString());
+		
 		if( !letters.contains(node.c))
 			return;
 		
@@ -127,7 +131,9 @@ public class Trie {
 		if(node.children.isEmpty())
 			return;
 		
-		letters.remove(node.c);
+		System.out.println("++" + letters.toString() + "--" + node.c);
+		
+		//letters.remove(node.c);
 		for(TrieNode child: node.children.values()){
 			possibleWords(child, letters, words, currWord);
 		}

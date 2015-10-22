@@ -1,5 +1,5 @@
 package game;
-
+//no me parece muy esencial con board y square creo que nos alcanza
 public class LetterNode {
 
 	private char letter;

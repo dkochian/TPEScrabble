@@ -27,7 +27,7 @@ public class Game {
 	}
 	
 	
-	public Board play2(){
+	public Board firstWord(){
 		
 		Board bestBoard = new Board();
 		//Integer bestScore = 0;
@@ -46,11 +46,11 @@ public class Game {
 					int row=7, col=7;
 					Square center = new Square(letter, row, col);
 					Square sq2 = center;
-					board.placePiece(letter, center, false);
+					board.placePiece(letter, 7, 7, false);
 					for(int j=i+1; i<word.length() - i; j++){
 						Square sq = new Square(charWord[j], row, 7+j);
 						sq.setLeft(sq2);
-						board.placePiece(charWord[j], sq, false);
+						board.placePiece(charWord[j], sq.getRow(), sq.getColumn(), false);
 						sq2.setRight(sq);
 						sq2=sq;	
 					}
@@ -58,7 +58,7 @@ public class Game {
 					for(int j=i-1; j>word.length() - i; j--){
 						Square sq=new Square(charWord[j], row, j);
 						sq.setRight(sq2);
-						board.placePiece(charWord[j], sq, false);
+						board.placePiece(charWord[j], sq.getRow(), sq.getColumn(), false);
 						sq2.setLeft(sq);
 						sq2=sq;
 					}
@@ -77,14 +77,17 @@ public class Game {
 				for(Square square : board.getAllSquares()){
 					if(locateLetter(word.charAt(i), board, square) == 1){
 						if(Board.verifyNotTransp(board, word, square, i)){
-							//meto la palabra longitudinalmente
+							board.putWordNotTransposed(word, square);
+							ArrayList<Character> lettersAux = letters;
+							lettersAux.remove(word.toCharArray());
 							//llamo a la funcion sin las letras y con la palabra
 							//metida en el board
 						}
 					}
 					if(locateLetter(word.charAt(i), board, square) == -1){
 						if(Board.verifyNotTransp(board, word, square, i)){
-							//meto la palabra verticalmente
+							board.putWordTransposed(word, square);
+							
 							//llamo a la funcion sin las letras y con la palabra
 							//metida en el board
 						}
@@ -192,7 +195,7 @@ public class Game {
 			char letter = wn.getLetter();
 			boolean isTransposed = move.isTransposed();
 			if (! sq.containsLetter()) {
-				board.placePiece(letter, sq, isTransposed);
+				board.placePiece(letter, sq.getRow(), sq.getColumn(), isTransposed);
 
 				computer.removePieceFromHand(letter);
 				wn = wn.getPreviousLetter();
