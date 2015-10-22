@@ -79,7 +79,12 @@ public class Game {
 						if(Board.verifyNotTransp(board, word, square, i)){
 							board.putWordNotTransposed(word, square);
 							ArrayList<Character> lettersAux = letters;
-							lettersAux.remove(word.toCharArray());
+							for(Character letter: word.toCharArray()){
+								lettersAux.remove(letter);
+							}
+							exactSolver(words, lettersAux, board, bestBoard, bestScore);
+							
+							
 							//llamo a la funcion sin las letras y con la palabra
 							//metida en el board
 						}
