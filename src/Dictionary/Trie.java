@@ -1,5 +1,6 @@
 package dictionary;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -105,10 +106,6 @@ public class Trie {
 		public TrieNode(char c) {
 			this.c = c;
 		}
-		
-		public boolean isEndNode(){
-			return endNode;
-		}
 	}
 
 	/**
@@ -120,7 +117,8 @@ public class Trie {
 		HashSet<String> awns = new HashSet<String>();
 
 		for (TrieNode rootChild : root.children.values()) {
-			getPossibleWords(rootChild, awns, letters, new StringBuffer());
+			ArrayList<Character> auxLetters = new ArrayList<Character>( letters);
+			getPossibleWords(rootChild, awns, auxLetters, new StringBuffer());
 		}
 		return awns;
 	}
@@ -135,8 +133,12 @@ public class Trie {
 		}else if(!letters.contains(node.c)){
 			return;
 		}
+		if(node.children.isEmpty())
+			return;
 		word.append(node.c);
-		letters.remove(node.c);
+		
+		int index = letters.indexOf(node.c);
+		letters.remove(index);
 		for(TrieNode child: node.children.values()){
 			
 			getPossibleWords(child, words, letters, word);

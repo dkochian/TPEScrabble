@@ -1,5 +1,6 @@
 package game;
 
+//no la voy a usar
 public class LetterNode {
 
 	private char letter;

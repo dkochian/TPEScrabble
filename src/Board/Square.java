@@ -5,7 +5,9 @@ import java.util.HashSet;
 import dictionary.Dic;
 
 
-
+/**
+ * no lo uso
+ */
 public class Square {
 //	static final char INVALID_SQUARE = (char) -1;
 	public static final char EMPTY = 48;

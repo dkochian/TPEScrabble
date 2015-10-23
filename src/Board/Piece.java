@@ -1,6 +1,7 @@
 package board;
 
 /**
+ * no lo uso
  * Represents the games pieces, containing the piece's score and letter
  */
 public class Piece {

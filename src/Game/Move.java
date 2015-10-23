@@ -2,6 +2,7 @@ package game;
 
 import board.Square;
 
+//no lo uso
 public class Move {
 
 	private char[] word;

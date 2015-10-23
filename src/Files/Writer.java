@@ -28,15 +28,15 @@ public class Writer {
 
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
-			Square[][] printBoard = board.getBoard();
+			char[][] printBoard = board.getBoard();
 			
 			bw.write("Scrabble..........");
 			bw.newLine();
 			bw.newLine();
 			
-			for (int i = 0; i < board.BOARD_SIZE; i++) {
-				for(int j = 0; j < board.BOARD_SIZE; j++){
-					bw.write(printBoard[i][j].getContent() + " " );
+			for (int i = 0; i < Board.BOARD_SIZE; i++) {
+				for(int j = 0; j < Board.BOARD_SIZE; j++){
+					bw.write(printBoard[i][j] + " " );
 				}
 				bw.newLine();
 			}
