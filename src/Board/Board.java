@@ -132,16 +132,24 @@ public class Board {
 		
 		if(row-indexOfWord <0)
 			return false;
+		
 		for(int i= indexOfWord + 1; i<word.length(); i++){
+			
+			if(board[row+i-indexOfWord][col+1] != '.' || board[row+i-indexOfWord][col-1] != '.'){
+				System.out.println("lo que hay alrededor " + board[row+i-indexOfWord][col+1] + " " + board[row+i-indexOfWord][col-i]);
+				return false;
+			}
 			if(row+i > 14)
 				return false;
 			
 			if(board[row+i-indexOfWord][col] == '.'){
+				System.out.println("letrassSantes " +  letters.toString());
 				Character letter = word.charAt(i);
 				int index = letters.indexOf(letter);
-				System.out.println("para la letra " + letter + " el index es " + index);
+				System.out.println("verify: para la letra " + letter + " el index es " + index);
 				if(index == -1)
 					return false;
+				letters.remove(index);
 			}
 			else if(board[row+i-indexOfWord][col] != word.charAt(i))
 				return false;
@@ -149,12 +157,19 @@ public class Board {
 		
 		//j index of the letter relative to the word and i is the position in the board
 		int j =0;
-		for(int i = row - indexOfWord; i< row+1; i++, j++){
+		for(int i = row - indexOfWord; i< row; i++, j++){
+			if(board[i][col+1] != '.' || board[i][col-1] != '.'){
+				System.out.println("lo que hay alrededor " + board[i][col+1] + " " +board[i][col-1]);
+				return false;
+				
+			}System.out.println("no devuelvo falso todavia");
+			
 			if(board[i][col] == '.'){
 				Character letter = word.charAt(j);
 				int index = letters.indexOf(letter);
 				if(index == -1)
 					return false;
+				letters.remove(index);
 			}
 			else if(board[i][col] != word.charAt(j))
 				return false;
@@ -194,13 +209,15 @@ public class Board {
 	public HashSet<Point> putWordTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){
 		
 		HashSet<Point> modifiedIndexes = new HashSet<Point>();
-		
+		//System.out.println(letters.toString());
 		int j=0;
 		for(int i = row - indexOfLetter; i< row; i++, j++){
+			System.out.println( word.charAt(j));
 			if(board[i][col] == '.'){
-				Character letter = word.charAt(j);
-				int index = letters.indexOf(letter);
+				System.out.println("putt letrassSantes " +  letters.toString());
+				int index = letters.indexOf(word.charAt(j));
 				letters.remove(index);
+				System.out.println("putt letras despues: " + letters.toString());
 				board[i][col] = word.charAt(j);
 				Point indexs = new Point(i, col);
 				modifiedIndexes.add(indexs);
@@ -213,6 +230,7 @@ public class Board {
 		for(int i= indexOfLetter +1; i<word.length(); i++){
 			if(board[row + i - indexOfLetter][col] == '.'){
 				int index = letters.indexOf(word.charAt(i));
+				System.out.println("en put el index de la letra: " + word.charAt(i) +" es " + index);
 				letters.remove(index);
 				board[row+i-indexOfLetter][col] = word.charAt(i);
 				Point indexs = new Point(row+i-indexOfLetter, col);

@@ -32,7 +32,6 @@ public class Game {
 	public Board firstWord(){
 
 		Board bestBoard = new Board();
-		
 
 		HashSet<String> possibleWords = dictionary.getPossibleWords(letters);
 		System.out.println("possible words "+ possibleWords.toString());
@@ -62,22 +61,21 @@ public class Game {
 				board.printBoard();
 				Board bestBoardRec = new Board();
 				exactSolver(possibleWords, letters, board, bestBoardRec);
-				
+
 				if(bestBoardRec.getScore() > bestBoard.getScore()){
 					System.out.println("la cambio en la wrapper");
 					bestBoard.setBoard(bestBoardRec.getBoard());
 					bestBoard.setScore(bestBoardRec.getScore());
 				}
-				
+
 				board.initBoard();
 				this.letters = Reader.readLetters();
 			}
-
-
 		}
 		//board.printBoard();
 		System.out.println("mejor tablero");
 		bestBoard.printBoard();
+		System.out.println("puntaje: " + bestBoard.getScore());
 		return bestBoard;
 	}
 
@@ -85,56 +83,61 @@ public class Game {
 	//hasta que no me entra otra palabra mas no la voy a considerar maxima solucion
 	public void exactSolver(HashSet<String> words, List<Character> letters, Board board, Board bestBoard){
 
-		boolean flag = false;
+		if(board.getScore() > bestBoard.getScore()){
+
+			System.out.println("cambio el best boardARRIBA DE TODO!!!");
+			System.out.println("score best board: " +bestBoard.getScore());
+			System.out.println("score del nuevo best Board: "+ board.getScore());
+			bestBoard.setBoard(board.getBoard());
+			bestBoard.setScore(board.getScore());
+		}
 		for(String word: words){
 			if(letters.size() != 0){
-				
+
 				System.out.println("PALABRA " + word);
-				
+
 				for(int i=0; i<word.length(); i++){
-					
+
 					System.out.println("LETRA CON LA QUE TRATO de mi plb " + word.charAt(i));
-					
+
 					for(int j=0; j<Board.BOARD_SIZE; j++){ //row
 						for(int k=0; k<Board.BOARD_SIZE; k++){ //col
-							
+
 							int locateLetter = locateLetter(word.charAt(i), j, k);
 							//System.out.println("locateLetter " + locateLetter);
-							
-							
-//							if(locateLetter == 1){ //HORIZONTAL
-//								
-//								System.out.println(letters.toString());
-//								if(board.verifyNotTransp(word, i, j, k, letters)){
-//									System.out.println("entre a horizontal! " + word.charAt(i));
-//									board.putWordNotTransp(word, i, j, k, letters);
-//								//								flag = true;
-//								//								List<Integer> placedLettersIndex = board.putWordNotTransposed(word, square, i);
-//								//								List<Character> lettersAux = letters;
-//								//								System.out.println(placedLettersIndex.isEmpty());
-//								//								for(Integer index: placedLettersIndex){
-//								//									int row = square.getRow();
-//								//									Integer indexOfLetters = lettersAux.indexOf(board.getLetter(row, index));
-//								//									lettersAux.remove(indexOfLetters);
-//								//								}
-//								//								ArrayList<Square> sqs = new ArrayList<Square>();
-//								//								
-//								//								
-//								//								exactSolver(words, lettersAux, board, bestBoard, sqs);
-//								//								board.removeAllPiecesNotTransp(placedLettersIndex, square.getRow());
-//								}
-//							}
-							
+
+
+							//							if(locateLetter == 1){ //HORIZONTAL
+							//								
+							//								System.out.println(letters.toString());
+							//								if(board.verifyNotTransp(word, i, j, k, letters)){
+							//									System.out.println("entre a horizontal! " + word.charAt(i));
+							//									board.putWordNotTransp(word, i, j, k, letters);
+							//								//								List<Integer> placedLettersIndex = board.putWordNotTransposed(word, square, i);
+							//								//								List<Character> lettersAux = letters;
+							//								//								System.out.println(placedLettersIndex.isEmpty());
+							//								//								for(Integer index: placedLettersIndex){
+							//								//									int row = square.getRow();
+							//								//									Integer indexOfLetters = lettersAux.indexOf(board.getLetter(row, index));
+							//								//									lettersAux.remove(indexOfLetters);
+							//								//								}
+							//								//								ArrayList<Square> sqs = new ArrayList<Square>();
+							//								//								
+							//								//								
+							//								//								exactSolver(words, lettersAux, board, bestBoard, sqs);
+							//								//								board.removeAllPiecesNotTransp(placedLettersIndex, square.getRow());
+							//								}
+							//							}
+
 							if(locateLetter == -1){//VERTICAL
-								if(board.verifyTransp(word, i, j, k, letters)){
-									
+								List<Character> auxLetters = new ArrayList<Character>(letters);
+								if(board.verifyTransp(word, i, j, k, auxLetters)){
 									List<Character> remainingLetters = new ArrayList<Character>(letters);
 									HashSet<Point>indexes =  board.putWordTransp(word, i, j, k, remainingLetters);
-									flag = true;
 									board.printBoard();
 									System.out.println("score: " + board.getScore());
 									exactSolver(words, remainingLetters, board, bestBoard);
-									
+
 									for(Point index: indexes){
 										board.remove(index.x, index.y);
 									}
@@ -148,19 +151,7 @@ public class Game {
 				}
 			}
 			board.printBoard();
-			//System.out.println("SALI DEL FOOOOR!!! Y FLAG =" + flag);
 
-			if(flag){
-				System.out.println("SA2!!!");
-				if(board.getScore() > bestBoard.getScore()){
-					System.out.println("cambio el best board!!!");
-					System.out.println("score best board: " +bestBoard.getScore());
-					System.out.println("score del nuevo best Board: "+ board.getScore());
-					bestBoard.setBoard(board.getBoard());
-					bestBoard.setScore(board.getScore());
-				}
-
-			}
 		}
 	}
 

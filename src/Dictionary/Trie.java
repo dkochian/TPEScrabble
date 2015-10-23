@@ -140,8 +140,9 @@ public class Trie {
 		int index = letters.indexOf(node.c);
 		letters.remove(index);
 		for(TrieNode child: node.children.values()){
-			
-			getPossibleWords(child, words, letters, word);
+			StringBuffer aux = new StringBuffer();
+			aux.append(word);
+			getPossibleWords(child, words, letters, aux);
 		}
 	}
 
