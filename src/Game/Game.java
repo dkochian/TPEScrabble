@@ -1,6 +1,8 @@
 package game;
 
 //import java.util.ArrayList;
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -30,8 +32,7 @@ public class Game {
 	public Board firstWord(){
 
 		Board bestBoard = new Board();
-		Board bestBoardRec = new Board();
-		//ArrayList<Square> squares = new ArrayList<Square>();
+		
 
 		HashSet<String> possibleWords = dictionary.getPossibleWords(letters);
 		System.out.println("possible words "+ possibleWords.toString());
@@ -49,44 +50,34 @@ public class Game {
 
 				for(int j=i+1; j<word.length(); j++){
 					board.placePiece(charWord[j], 7, 7+j-i);
-
-					//System.out.println("LETTERSS2" + letters.toString());
-					//System.out.println(charWord[j]);
 					index = letters.indexOf(charWord[j]);
 					letters.remove(index);
-					//System.out.println("LETTERSS2.2" + letters.toString());
 				}
 				for(int j=i-1; j>=0; j--){
 					board.placePiece(charWord[j], 7, 7+j-i);
 					index = letters.indexOf(charWord[j]);
 					letters.remove(index);
 				}
-
-				//System.out.println("LETTERSS4" + letters.toString());
-
-				//System.out.println("antes de llamar a exact con ");
-				//System.out.println("entro " + i + "veces");
-				System.out.println("puse la palabra: " + word);
-				System.out.println("me quedan las letras: " + letters);
+				System.out.println("con primera palabra " + word);
 				board.printBoard();
+				Board bestBoardRec = new Board();
 				exactSolver(possibleWords, letters, board, bestBoardRec);
+				
 				if(bestBoardRec.getScore() > bestBoard.getScore()){
+					System.out.println("la cambio en la wrapper");
 					bestBoard.setBoard(bestBoardRec.getBoard());
 					bestBoard.setScore(bestBoardRec.getScore());
 				}
+				
 				board.initBoard();
-				//System.out.println("despues de refresh");
-				//board.printBoard();
 				this.letters = Reader.readLetters();
-
-				//System.out.println("i igual a " + i);
-
 			}
 
 
 		}
 		//board.printBoard();
-		//bestBoard.printBoard();
+		System.out.println("mejor tablero");
+		bestBoard.printBoard();
 		return bestBoard;
 	}
 
@@ -97,12 +88,20 @@ public class Game {
 		boolean flag = false;
 		for(String word: words){
 			if(letters.size() != 0){
+				
 				System.out.println("PALABRA " + word);
+				
 				for(int i=0; i<word.length(); i++){
+					
 					System.out.println("LETRA CON LA QUE TRATO de mi plb " + word.charAt(i));
+					
 					for(int j=0; j<Board.BOARD_SIZE; j++){ //row
 						for(int k=0; k<Board.BOARD_SIZE; k++){ //col
+							
 							int locateLetter = locateLetter(word.charAt(i), j, k);
+							//System.out.println("locateLetter " + locateLetter);
+							
+							
 //							if(locateLetter == 1){ //HORIZONTAL
 //								
 //								System.out.println(letters.toString());
@@ -125,21 +124,20 @@ public class Game {
 //								//								board.removeAllPiecesNotTransp(placedLettersIndex, square.getRow());
 //								}
 //							}
+							
 							if(locateLetter == -1){//VERTICAL
 								if(board.verifyTransp(word, i, j, k, letters)){
-									//voy a tener que usar un board auxiliar para volver al estado anterior y hacer el paso recursivo
-									//con backtracking
 									
-									List<Character> remainingLetters = board.putWordTransp(word, i, j, k, letters);
-
+									List<Character> remainingLetters = new ArrayList<Character>(letters);
+									HashSet<Point>indexes =  board.putWordTransp(word, i, j, k, remainingLetters);
 									flag = true;
+									board.printBoard();
+									System.out.println("score: " + board.getScore());
 									exactSolver(words, remainingLetters, board, bestBoard);
-									//								
-									//								for(Integer index: placedLettersIndex){
-									//									int col = square.getColumn();
-									//									Integer indexOfLetters = lettersAux.indexOf(board.getLetter(index, col));
-									//									lettersAux.remove(indexOfLetters);
-									//								board.removeAllPiecesTransp(placedLettersIndex, square.getColumn());
+									
+									for(Point index: indexes){
+										board.remove(index.x, index.y);
+									}
 								}
 							}
 						}
@@ -156,6 +154,8 @@ public class Game {
 				System.out.println("SA2!!!");
 				if(board.getScore() > bestBoard.getScore()){
 					System.out.println("cambio el best board!!!");
+					System.out.println("score best board: " +bestBoard.getScore());
+					System.out.println("score del nuevo best Board: "+ board.getScore());
 					bestBoard.setBoard(board.getBoard());
 					bestBoard.setScore(board.getScore());
 				}

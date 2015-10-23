@@ -1,6 +1,8 @@
 package board;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class Board {
@@ -10,8 +12,7 @@ public class Board {
 	private int score;
 
 
-	public Board()
-	{
+	public Board(){
 		initBoard();
 	}
 
@@ -29,9 +30,18 @@ public class Board {
 
 	}
 
+	public void remove(int row, int col){
+		if(board[row][col] == '.')
+			return;
+		//deberia restar el valor de la letra
+		score -= 1;
+		board[row][col]='.';
+	}
 
 	public void placePiece(char letter, int row, int col) {
 		board[row][col]=letter;
+		score += 1;
+		//agrego valor de la letra
 	}
 
 
@@ -129,6 +139,7 @@ public class Board {
 			if(board[row+i-indexOfWord][col] == '.'){
 				Character letter = word.charAt(i);
 				int index = letters.indexOf(letter);
+				System.out.println("para la letra " + letter + " el index es " + index);
 				if(index == -1)
 					return false;
 			}
@@ -180,16 +191,19 @@ public class Board {
 		
 	}
 	
-	public List<Character> putWordTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){
-		ArrayList<Character> lettersRemaining = new ArrayList<Character>(letters);
+	public HashSet<Point> putWordTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){
+		
+		HashSet<Point> modifiedIndexes = new HashSet<Point>();
 		
 		int j=0;
 		for(int i = row - indexOfLetter; i< row; i++, j++){
 			if(board[i][col] == '.'){
 				Character letter = word.charAt(j);
-				int index = lettersRemaining.indexOf(letter);
-				lettersRemaining.remove(index);
+				int index = letters.indexOf(letter);
+				letters.remove(index);
 				board[i][col] = word.charAt(j);
+				Point indexs = new Point(i, col);
+				modifiedIndexes.add(indexs);
 				score+=1;
 				//score += Dic.values.get(word.charAt(i));
 			}
@@ -198,15 +212,17 @@ public class Board {
 		
 		for(int i= indexOfLetter +1; i<word.length(); i++){
 			if(board[row + i - indexOfLetter][col] == '.'){
-				int index = lettersRemaining.indexOf(word.charAt(i));
-				lettersRemaining.remove(index);
+				int index = letters.indexOf(word.charAt(i));
+				letters.remove(index);
 				board[row+i-indexOfLetter][col] = word.charAt(i);
+				Point indexs = new Point(row+i-indexOfLetter, col);
+				modifiedIndexes.add(indexs);
 				score+=1;
 				//score += Dic.values.get(word.charAt(i));
 			}
 		}
-		System.out.println("las letras que agregue fueron: " + lettersRemaining.toString());
-		return lettersRemaining;
+		System.out.println("las letras que quedaron: " + letters.toString());
+		return modifiedIndexes;
 	}
 	
 }
