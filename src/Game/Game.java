@@ -37,7 +37,7 @@ public class Game {
 		System.out.println("possible words "+ possibleWords.toString());
 
 		for(String word: possibleWords){
-
+			System.out.println(letters.toString());
 			char[] charWord = word.toCharArray();
 
 			for(int i=0; i<word.length(); i++){
@@ -57,13 +57,16 @@ public class Game {
 					index = letters.indexOf(charWord[j]);
 					letters.remove(index);
 				}
-				System.out.println("con primera palabra " + word);
-				board.printBoard();
+				//	System.out.println("con primera palabra " + word);
+				//board.printBoard();
 				Board bestBoardRec = new Board();
+				System.out.println("primer bestBoard");
+				bestBoardRec.printBoard();
+				System.out.println("board con el que entro");
+				board.printBoard();
 				exactSolver(possibleWords, letters, board, bestBoardRec);
 
 				if(bestBoardRec.getScore() > bestBoard.getScore()){
-					System.out.println("la cambio en la wrapper");
 					bestBoard.setBoard(bestBoardRec.getBoard());
 					bestBoard.setScore(bestBoardRec.getScore());
 				}
@@ -82,20 +85,20 @@ public class Game {
 
 	//hasta que no me entra otra palabra mas no la voy a considerar maxima solucion
 	public void exactSolver(HashSet<String> words, List<Character> letters, Board board, Board bestBoard){
-
+		
 		if(board.getScore() > bestBoard.getScore()){
-
 			System.out.println("cambio el best boardARRIBA DE TODO!!!");
-			System.out.println("score best board: " +bestBoard.getScore());
-			System.out.println("score del nuevo best Board: "+ board.getScore());
+			//System.out.println("score best board: " +bestBoard.getScore());
+			//System.out.println("score del nuevo best Board: "+ board.getScore());
 			bestBoard.setBoard(board.getBoard());
 			bestBoard.setScore(board.getScore());
+			bestBoard.printBoard();
 		}
-		for(String word: words){
-			if(letters.size() != 0){
+		
+		if(letters.size() > 0){
+			for(String word: words){
 
-				System.out.println("PALABRA " + word);
-
+				System.out.println("plb que quiero agregar: " + word);
 				for(int i=0; i<word.length(); i++){
 
 					System.out.println("LETRA CON LA QUE TRATO de mi plb " + word.charAt(i));
@@ -106,41 +109,34 @@ public class Game {
 							int locateLetter = locateLetter(word.charAt(i), j, k);
 							//System.out.println("locateLetter " + locateLetter);
 
-
-							//							if(locateLetter == 1){ //HORIZONTAL
-							//								
-							//								System.out.println(letters.toString());
-							//								if(board.verifyNotTransp(word, i, j, k, letters)){
-							//									System.out.println("entre a horizontal! " + word.charAt(i));
-							//									board.putWordNotTransp(word, i, j, k, letters);
-							//								//								List<Integer> placedLettersIndex = board.putWordNotTransposed(word, square, i);
-							//								//								List<Character> lettersAux = letters;
-							//								//								System.out.println(placedLettersIndex.isEmpty());
-							//								//								for(Integer index: placedLettersIndex){
-							//								//									int row = square.getRow();
-							//								//									Integer indexOfLetters = lettersAux.indexOf(board.getLetter(row, index));
-							//								//									lettersAux.remove(indexOfLetters);
-							//								//								}
-							//								//								ArrayList<Square> sqs = new ArrayList<Square>();
-							//								//								
-							//								//								
-							//								//								exactSolver(words, lettersAux, board, bestBoard, sqs);
-							//								//								board.removeAllPiecesNotTransp(placedLettersIndex, square.getRow());
-							//								}
-							//							}
+							if(locateLetter == 1){ //HORIZONTAL
+								List<Character> auxLetters = new ArrayList<Character>(letters);
+								if(board.verifyNotTransp(word, i, j, k, auxLetters)){
+//									List<Character> remainingLetters2 = new ArrayList<Character>(letters);
+//									HashSet<Point> indexes2 = board.putWordNotTransp(word, i, j, k, remainingLetters2);
+//									board.printBoard();
+//									exactSolver(words, remainingLetters2, board, bestBoard);
+//									for(Point index: indexes2){
+//										board.remove(index.x, index.y);
+//									}
+								}
+							}
 
 							if(locateLetter == -1){//VERTICAL
-								List<Character> auxLetters = new ArrayList<Character>(letters);
-								if(board.verifyTransp(word, i, j, k, auxLetters)){
+								List<Character> auxLetters2 = new ArrayList<Character>(letters);
+								if(board.verifyTransp(word, i, j, k, auxLetters2)){
+									//System.out.println("entre de nuevo con " + word.charAt(i) + " i " + i);
 									List<Character> remainingLetters = new ArrayList<Character>(letters);
+									//	System.out.println("salgo");
 									HashSet<Point>indexes =  board.putWordTransp(word, i, j, k, remainingLetters);
 									board.printBoard();
-									System.out.println("score: " + board.getScore());
+									//System.out.println("score: " + board.getScore());
 									exactSolver(words, remainingLetters, board, bestBoard);
 
 									for(Point index: indexes){
 										board.remove(index.x, index.y);
 									}
+
 								}
 							}
 						}
@@ -150,14 +146,10 @@ public class Game {
 					}
 				}
 			}
-			board.printBoard();
-
+			//board.printBoard();
 		}
+
 	}
-
-
-
-
 
 	private Integer locateLetter(char letter, int row, int col){
 		if(board.getLetter(row, col) == letter){
@@ -166,99 +158,8 @@ public class Game {
 			if(board.getBoard()[row][col+1] == '.' && board.getBoard()[row][col-1] == '.')
 				return 1; //HORIZONTAL	
 		}
-
 		return 0;
 	}
-
-
-
-
-	//	public Board play(long seconds){
-	//		boolean gameOver = false;
-	//		int score = 0;
-	//
-	//
-	//		long start = System.currentTimeMillis();
-	//		long end = start + seconds*1000; // 60 seconds * 1000 ms/sec
-	//
-	//
-	//
-	//		while (! gameOver){
-	//
-	//			try {
-	//				Thread.sleep(2000);                 //1000 milliseconds is one second.
-	//			} catch(InterruptedException ex) {
-	//				Thread.currentThread().interrupt();
-	//			}
-	//
-	//			boolean successfulMove = false;
-	//			if(System.currentTimeMillis() < end){
-	//				successfulMove = playTurn();
-	//			}
-	//
-	//			if(! successfulMove || computer.placedAllPieces()){
-	//				gameOver = true;
-	//				continue;
-	//			}
-	//
-	//			//gui.updateBoard();
-	//
-	//			board.printBoard();
-	//			System.out.println();			
-	//
-	//			System.out.println("----------------------------------");
-	//			System.out.println();
-	//
-	//			//score = computer.getScore();
-	//			//gui.updateScores(score);
-	//
-	//		}
-	//		return this.board;
-	//	}
-
-	//	protected boolean playTurn() {
-	//		Move move = computer.generateMove();
-	//
-	//		if (move == null){
-	//			return false;
-	//		}
-	//
-	//		makeMove(move);
-	//		return true;
-	//	}
-
-	/**
-	 * Make the move. Place a word on the board, letters already located on the
-	 * board should not be touched. 
-	 * 
-	 * @param move
-	 * @return
-	 */
-	//	public void makeMove(Move move) {
-	//
-	//		LetterNode wn = move.getLetterNode();
-	//
-	//		Square sq = board.getSquare(move.getEndSquare().getRow(), move.getEndSquare().getColumn());
-	//
-	//
-	//		while (wn != null && sq.getContent() != Square.OUT_BOUNDS) {
-	//
-	//			char letter = wn.getLetter();
-	//			boolean isTransposed = move.isTransposed();
-	//			if (! sq.containsLetter()) {
-	//				board.placePiece(letter, sq.getRow(), sq.getColumn(), isTransposed);
-	//
-	//				computer.removePieceFromHand(letter);
-	//				wn = wn.getPreviousLetter();
-	//
-	//			} else {
-	//				wn = wn.getPreviousLetter();
-	//			}
-	//
-	//			sq = sq.getNextLeft(isTransposed);
-	//
-	//		}
-	//	}
 
 
 	public Dic getDictionary(){

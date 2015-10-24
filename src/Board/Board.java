@@ -1,7 +1,6 @@
 package board;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -81,16 +80,6 @@ public class Board {
 	public boolean isCenterFree(){
 		return board[7][7] == '7';
 	}
-
-//	public Square[][] getTransposedBoard() {
-//		Square[][] transposed = new Square[BOARD_SIZE][BOARD_SIZE];
-//		for (int row = 0; row < BOARD_SIZE; row++) {
-//			for (int column = 0; column < BOARD_SIZE; column++) {
-//				transposed[column][row] = board[row][column];
-//			}
-//		}
-//		return transposed;
-//	}
 	
 	public int getScore(){
 		return score;
@@ -102,51 +91,82 @@ public class Board {
 	
 	public boolean verifyNotTransp(String word, int indexOfWord, int row, int col, List<Character> letters){
 		
+	//	System.out.println("la letra que quiero es " + word.charAt(indexOfWord) + " en " + row + col);
+		
 		if(col - indexOfWord < 0)
 			return false;
 		
 		for(int i=indexOfWord+1; i<word.length(); i++){
+			
 			if(i+col > 14)
 				return false;
+			
+			if(row+1 < 14 && board[row+1][col+i] != '.'){
+			//	System.out.println("tiene cosas alrededor metiendolo horizontalmente");
+				return false;
+			}
+			if(row-1 > 0 && board[row-1][col+i] !='.')
+				return false;
+			
 			if(board[row][col+i] == '.'){
-				if(letters.indexOf(word.charAt(i)) == -1)
+				int index = letters.indexOf(word.charAt(i));
+				if(index == -1)
 					return false;
+				letters.remove(index);
 			}
 			else if(board[row][col+i] != word.charAt(i))
 				return false;
 		}
 		
-		for(int i = indexOfWord - 1; i>0; i--){
-			if(board[row][col-i] == '.'){
-				if(letters.indexOf(word.charAt(i)) == -1)
-					return false;
+		int j = 0;
+		for(int i = 0; i< indexOfWord; i++){
+			
+			if(col - i <0)
+				return false;
+			
+			if(row+1 <= 14 && board[row+1][col- indexOfWord +i] != '.')
+				return false;
+			
+			if(row-1 >= 0 && board[row-1][col- indexOfWord +i] != '.'){
+			//	System.out.println("tiene algo alrededor metiendolo horizontalmente");
+				return false;
 			}
-			else if(board[row][col-i] != word.charAt(i))
+			
+			if(board[row][col- indexOfWord +i] == '.'){
+				int index = letters.indexOf(word.charAt(i));
+				if(index == -1)
+					return false;
+				letters.remove(index);
+			}
+			else if(board[row][col- indexOfWord +i] != word.charAt(i))
 				return false;
 		}
-		
+	//	System.out.println("lo puedo meter horizontalemnte");
 		return true;
 	}
 	
 	public boolean verifyTransp(String word, int indexOfWord, int row, int col, List<Character> letters){
-		
+	//	System.out.println("las letras que tengo " + letters.toString());
+	//	System.out.println("LETRA QUE VERIFICO " + word.charAt(indexOfWord) +" en " + row + col);
 		if(row-indexOfWord <0)
 			return false;
 		
 		for(int i= indexOfWord + 1; i<word.length(); i++){
 			
+			if(row+i-indexOfWord > 14)
+				return false;
+		//	System.out.println("verfico los costados " + board[row+i-indexOfWord][col+i] + " " + board[row+i-indexOfWord][col-1]);
 			if(board[row+i-indexOfWord][col+1] != '.' || board[row+i-indexOfWord][col-1] != '.'){
-				System.out.println("lo que hay alrededor " + board[row+i-indexOfWord][col+1] + " " + board[row+i-indexOfWord][col-i]);
+				
+				//System.out.println("lo que hay alrededor " + board[row+i-indexOfWord][col+1] + " " + board[row+i-indexOfWord][col-i]);
 				return false;
 			}
-			if(row+i > 14)
-				return false;
 			
 			if(board[row+i-indexOfWord][col] == '.'){
-				System.out.println("letrassSantes " +  letters.toString());
+				//System.out.println("letrassSantes " +  letters.toString());
 				Character letter = word.charAt(i);
 				int index = letters.indexOf(letter);
-				System.out.println("verify: para la letra " + letter + " el index es " + index);
+				//System.out.println("verify: para la letra " + letter + " el index es " + index);
 				if(index == -1)
 					return false;
 				letters.remove(index);
@@ -159,10 +179,10 @@ public class Board {
 		int j =0;
 		for(int i = row - indexOfWord; i< row; i++, j++){
 			if(board[i][col+1] != '.' || board[i][col-1] != '.'){
-				System.out.println("lo que hay alrededor " + board[i][col+1] + " " +board[i][col-1]);
+				//System.out.println("lo que hay alrededor " + board[i][col+1] + " " +board[i][col-1]);
 				return false;
 				
-			}System.out.println("no devuelvo falso todavia");
+			}//System.out.println("no devuelvo falso todavia");
 			
 			if(board[i][col] == '.'){
 				Character letter = word.charAt(j);
@@ -178,14 +198,17 @@ public class Board {
 		
 	}
 	
-	public List<Character> putWordNotTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){
-		ArrayList<Character> lettersRemaining = new ArrayList<Character>();
+	public HashSet<Point> putWordNotTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){
+		
+		HashSet<Point> modifiedIndexes = new HashSet<Point>();
 		
 		for(int i = indexOfLetter +1; i<word.length(); i++){
 			if(board[row][col-indexOfLetter+i] == '.'){
 				Character letter = word.charAt(i);
-				int index = lettersRemaining.indexOf(letter);
-				lettersRemaining.remove(index);
+				int index = letters.indexOf(letter);
+				letters.remove(index);
+				Point indexs = new Point(row, col-indexOfLetter + i);
+				modifiedIndexes.add(indexs);
 				board[row][col-indexOfLetter+i] = word.charAt(i);
 				score+=1;
 				//score += Dic.values.get(word.charAt(i));
@@ -195,29 +218,33 @@ public class Board {
 		for(int i = col-indexOfLetter; i<indexOfLetter; i++, j++){
 			if(board[row][i] == '.'){
 				Character letter = word.charAt(j);
-				int index = lettersRemaining.indexOf(letter);
-				lettersRemaining.remove(index);
+				int index = letters.indexOf(letter);
+				letters.remove(index);
+				Point indexs = new Point(row, i);
+				modifiedIndexes.add(indexs);
 				board[row][i] = word.charAt(j);
 				score+=1;
 				//score += Dic.values.get(word.charAt(i));
 			}
 		}
-		return lettersRemaining;
+	//	System.out.println("agregue la palabra " + word);
+	//	printBoard();
+		return modifiedIndexes;
 		
 	}
 	
 	public HashSet<Point> putWordTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){
 		
 		HashSet<Point> modifiedIndexes = new HashSet<Point>();
-		//System.out.println(letters.toString());
 		int j=0;
+		//System.out.println("plb: " + word +" la letra que me encontro es " + word.charAt(indexOfLetter) + " en la col " + col);
 		for(int i = row - indexOfLetter; i< row; i++, j++){
-			System.out.println( word.charAt(j));
+			
 			if(board[i][col] == '.'){
-				System.out.println("putt letrassSantes " +  letters.toString());
-				int index = letters.indexOf(word.charAt(j));
+			//	System.out.println("pongo la letra " + word.charAt(j));
+				Character letter = word.charAt(j);
+				int index = letters.indexOf(letter);
 				letters.remove(index);
-				System.out.println("putt letras despues: " + letters.toString());
 				board[i][col] = word.charAt(j);
 				Point indexs = new Point(i, col);
 				modifiedIndexes.add(indexs);
@@ -225,21 +252,23 @@ public class Board {
 				//score += Dic.values.get(word.charAt(i));
 			}
 		}
-		//printBoard();
 		
-		for(int i= indexOfLetter +1; i<word.length(); i++){
+		
+		for(int i= indexOfLetter+1; i<word.length(); i++){
 			if(board[row + i - indexOfLetter][col] == '.'){
 				int index = letters.indexOf(word.charAt(i));
-				System.out.println("en put el index de la letra: " + word.charAt(i) +" es " + index);
-				letters.remove(index);
+			//	System.out.println("en put el index de la letra: " + word.charAt(i) +" es " + index);
 				board[row+i-indexOfLetter][col] = word.charAt(i);
 				Point indexs = new Point(row+i-indexOfLetter, col);
 				modifiedIndexes.add(indexs);
+				letters.remove(index);
 				score+=1;
 				//score += Dic.values.get(word.charAt(i));
 			}
 		}
-		System.out.println("las letras que quedaron: " + letters.toString());
+		//printBoard();
+		System.out.println("agregue la palabra " + word);
+		printBoard();
 		return modifiedIndexes;
 	}
 	
