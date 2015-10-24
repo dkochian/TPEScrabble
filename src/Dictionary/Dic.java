@@ -8,9 +8,11 @@ import files.Reader;
 
 public class Dic {
 	
+	
 	private static Trie dictionary;
-	public final static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public final static int[] values = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+	//public final static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	static Integer[] valuess = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+    public final static AlphaStructure values= new AlphaStructure(valuess);
 	//private static HashMap<Character, Integer> values;
 	
 	public Dic(){
@@ -20,9 +22,9 @@ public class Dic {
 	}
 
 	
-/*	public Integer getLetterValue(Character letter){
+	public static Integer getLetterValue(Character letter){
 		return values.get(letter);
-	}*/
+	}
 	
 	
 	/**
@@ -86,8 +88,8 @@ public class Dic {
         int sum = 0;
         word = word.toUpperCase();
         for(int i = 0; i < word.length();i++) {
-        		//sum+= values.get(alphabet.indexOf(word.charAt(i)));
-        		sum += values[alphabet.indexOf(word.charAt(i))];
+        		sum+= values.get(word.charAt(i));
+        		//sum += values[alphabet.indexOf(word.charAt(i))];
         }
         
         return sum;

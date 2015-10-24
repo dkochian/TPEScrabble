@@ -30,14 +30,14 @@ public class Game {
 
 
 	public Board firstWord(){
-
+		
 		Board bestBoard = new Board();
 
 		HashSet<String> possibleWords = dictionary.getPossibleWords(letters);
-		System.out.println("possible words "+ possibleWords.toString());
+		//System.out.println("possible words "+ possibleWords.toString());
 
 		for(String word: possibleWords){
-			System.out.println(letters.toString());
+			//System.out.println(letters.toString());
 			char[] charWord = word.toCharArray();
 
 			for(int i=0; i<word.length(); i++){
@@ -60,10 +60,10 @@ public class Game {
 				//	System.out.println("con primera palabra " + word);
 				//board.printBoard();
 				Board bestBoardRec = new Board();
-				System.out.println("primer bestBoard");
-				bestBoardRec.printBoard();
-				System.out.println("board con el que entro");
-				board.printBoard();
+				//System.out.println("primer bestBoard");
+				//bestBoardRec.printBoard();
+				//System.out.println("board con el que entro");
+				//board.printBoard();
 				exactSolver(possibleWords, letters, board, bestBoardRec);
 
 				if(bestBoardRec.getScore() > bestBoard.getScore()){
@@ -87,7 +87,7 @@ public class Game {
 	public void exactSolver(HashSet<String> words, List<Character> letters, Board board, Board bestBoard){
 		
 		if(board.getScore() > bestBoard.getScore()){
-			System.out.println("cambio el best boardARRIBA DE TODO!!!");
+			//System.out.println("cambio el best boardARRIBA DE TODO!!!");
 			//System.out.println("score best board: " +bestBoard.getScore());
 			//System.out.println("score del nuevo best Board: "+ board.getScore());
 			bestBoard.setBoard(board.getBoard());
@@ -98,10 +98,10 @@ public class Game {
 		if(letters.size() > 0){
 			for(String word: words){
 
-				System.out.println("plb que quiero agregar: " + word);
+				//System.out.println("plb que quiero agregar: " + word);
 				for(int i=0; i<word.length(); i++){
 
-					System.out.println("LETRA CON LA QUE TRATO de mi plb " + word.charAt(i));
+					//System.out.println("LETRA CON LA QUE TRATO de mi plb " + word.charAt(i));
 
 					for(int j=0; j<Board.BOARD_SIZE; j++){ //row
 						for(int k=0; k<Board.BOARD_SIZE; k++){ //col

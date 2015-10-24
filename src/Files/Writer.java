@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import board.Board;
-import board.Square;
 
 public class Writer {
 	

@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.HashSet;
 import java.util.List;
 
+import dictionary.Dic;
+
 public class Board {
 
 	private char[][] board;
@@ -33,13 +35,13 @@ public class Board {
 		if(board[row][col] == '.')
 			return;
 		//deberia restar el valor de la letra
-		score -= 1;
+		score -= Dic.getLetterValue(board[row][col]);
 		board[row][col]='.';
 	}
 
 	public void placePiece(char letter, int row, int col) {
 		board[row][col]=letter;
-		score += 1;
+		score += Dic.getLetterValue(letter);
 		//agrego valor de la letra
 	}
 
@@ -117,8 +119,6 @@ public class Board {
 			else if(board[row][col+i] != word.charAt(i))
 				return false;
 		}
-		
-		int j = 0;
 		for(int i = 0; i< indexOfWord; i++){
 			
 			if(col - i <0)
@@ -210,8 +210,7 @@ public class Board {
 				Point indexs = new Point(row, col-indexOfLetter + i);
 				modifiedIndexes.add(indexs);
 				board[row][col-indexOfLetter+i] = word.charAt(i);
-				score+=1;
-				//score += Dic.values.get(word.charAt(i));
+				score += Dic.values.get(word.charAt(i));
 			}
 		}
 		int j=0;
@@ -223,8 +222,7 @@ public class Board {
 				Point indexs = new Point(row, i);
 				modifiedIndexes.add(indexs);
 				board[row][i] = word.charAt(j);
-				score+=1;
-				//score += Dic.values.get(word.charAt(i));
+				score += Dic.values.get(word.charAt(i));
 			}
 		}
 	//	System.out.println("agregue la palabra " + word);
@@ -248,8 +246,7 @@ public class Board {
 				board[i][col] = word.charAt(j);
 				Point indexs = new Point(i, col);
 				modifiedIndexes.add(indexs);
-				score+=1;
-				//score += Dic.values.get(word.charAt(i));
+				score += Dic.values.get(word.charAt(j));
 			}
 		}
 		
@@ -262,12 +259,11 @@ public class Board {
 				Point indexs = new Point(row+i-indexOfLetter, col);
 				modifiedIndexes.add(indexs);
 				letters.remove(index);
-				score+=1;
-				//score += Dic.values.get(word.charAt(i));
+				score += Dic.values.get(word.charAt(i));
 			}
 		}
 		//printBoard();
-		System.out.println("agregue la palabra " + word);
+		//System.out.println("agregue la palabra " + word);
 		printBoard();
 		return modifiedIndexes;
 	}
