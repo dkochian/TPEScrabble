@@ -98,10 +98,12 @@ public class Board {
 		if(col - indexOfWord < 0)
 			return false;
 		
+		if(word.length()+col > 14)
+			return false;
+		
 		for(int i=indexOfWord+1; i<word.length(); i++){
 			
-			if(i+col > 14)
-				return false;
+			
 			
 			if(row+1 < 14 && board[row+1][col+i] != '.'){
 			//	System.out.println("tiene cosas alrededor metiendolo horizontalmente");
@@ -148,15 +150,16 @@ public class Board {
 	public boolean verifyTransp(String word, int indexOfWord, int row, int col, List<Character> letters){
 	//	System.out.println("las letras que tengo " + letters.toString());
 	//	System.out.println("LETRA QUE VERIFICO " + word.charAt(indexOfWord) +" en " + row + col);
+		
 		if(row-indexOfWord <0)
 			return false;
 		
+		if(row+	word.length() -indexOfWord > 14)
+			return false;
+		
 		for(int i= indexOfWord + 1; i<word.length(); i++){
-			
-			if(row+i-indexOfWord > 14)
-				return false;
 		//	System.out.println("verfico los costados " + board[row+i-indexOfWord][col+i] + " " + board[row+i-indexOfWord][col-1]);
-			if(board[row+i-indexOfWord][col+1] != '.' || board[row+i-indexOfWord][col-1] != '.'){
+			if(( col != 14 && board[row+i-indexOfWord][col+1] != '.') || (col != 0 &&  board[row+i-indexOfWord][col-1] != '.')){
 				
 				//System.out.println("lo que hay alrededor " + board[row+i-indexOfWord][col+1] + " " + board[row+i-indexOfWord][col-i]);
 				return false;
@@ -177,8 +180,9 @@ public class Board {
 		
 		//j index of the letter relative to the word and i is the position in the board
 		int j =0;
+		
 		for(int i = row - indexOfWord; i< row; i++, j++){
-			if(board[i][col+1] != '.' || board[i][col-1] != '.'){
+			if((col != 14 && board[i][col+1] != '.') ||( col != 0 && board[i][col-1] != '.')){
 				//System.out.println("lo que hay alrededor " + board[i][col+1] + " " +board[i][col-1]);
 				return false;
 				
@@ -214,7 +218,7 @@ public class Board {
 			}
 		}
 		int j=0;
-		for(int i = col-indexOfLetter; i<indexOfLetter; i++, j++){
+		for(int i = col-indexOfLetter; i<col; i++, j++){
 			if(board[row][i] == '.'){
 				Character letter = word.charAt(j);
 				int index = letters.indexOf(letter);
@@ -222,7 +226,7 @@ public class Board {
 				Point indexs = new Point(row, i);
 				modifiedIndexes.add(indexs);
 				board[row][i] = word.charAt(j);
-				score += Dic.values.get(word.charAt(i));
+				score += Dic.values.get(word.charAt(j));
 			}
 		}
 	//	System.out.println("agregue la palabra " + word);
@@ -245,6 +249,7 @@ public class Board {
 				letters.remove(index);
 				board[i][col] = word.charAt(j);
 				Point indexs = new Point(i, col);
+				
 				modifiedIndexes.add(indexs);
 				score += Dic.values.get(word.charAt(j));
 			}

@@ -112,13 +112,13 @@ public class Game {
 							if(locateLetter == 1){ //HORIZONTAL
 								List<Character> auxLetters = new ArrayList<Character>(letters);
 								if(board.verifyNotTransp(word, i, j, k, auxLetters)){
-//									List<Character> remainingLetters2 = new ArrayList<Character>(letters);
-//									HashSet<Point> indexes2 = board.putWordNotTransp(word, i, j, k, remainingLetters2);
-//									board.printBoard();
-//									exactSolver(words, remainingLetters2, board, bestBoard);
-//									for(Point index: indexes2){
-//										board.remove(index.x, index.y);
-//									}
+									List<Character> remainingLetters2 = new ArrayList<Character>(letters);
+									HashSet<Point> indexes2 = board.putWordNotTransp(word, i, j, k, remainingLetters2);
+									board.printBoard();
+									exactSolver(words, remainingLetters2, board, bestBoard);
+									for(Point index: indexes2){
+										board.remove(index.x, index.y);
+									}
 								}
 							}
 
@@ -153,9 +153,9 @@ public class Game {
 
 	private Integer locateLetter(char letter, int row, int col){
 		if(board.getLetter(row, col) == letter){
-			if(board.getBoard()[row+1][col] == '.' && board.getBoard()[row-1][col] == '.')
+			if((row == 14 || board.getBoard()[row+1][col] == '.') && (row == 0 || board.getBoard()[row-1][col] == '.'))
 				return -1; //VERTICAL
-			if(board.getBoard()[row][col+1] == '.' && board.getBoard()[row][col-1] == '.')
+			if((col == 14 || board.getBoard()[row][col+1] == '.') && (col ==0 || board.getBoard()[row][col-1] == '.'))
 				return 1; //HORIZONTAL	
 		}
 		return 0;
