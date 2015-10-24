@@ -79,8 +79,8 @@ public class Board {
 		}
 	}
 	
-	public boolean isCenterFree(){
-		return board[7][7] == '7';
+	public boolean containsLetter(int row, int column){
+		return this.board[row][column] != '.';
 	}
 	
 	public int getScore(){

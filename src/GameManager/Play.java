@@ -12,9 +12,7 @@ import board.Board;
 public class Play {
 		
 	public static void main(String[] args) {
-//		Dic test = new Dic();
-//		System.out.println(test.checkWord("ho"));
-//		System.out.println(test.startsWith("ho"));
+
 		Game game = new Game();
 		game.firstWord();
 //		if(game.getDictionary() != null){
