@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Board.Board;
+import board.Board;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
