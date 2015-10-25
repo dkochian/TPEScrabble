@@ -15,6 +15,7 @@ public class Play {
 	Game game = new Game();
 	//game.firstWordExact();
 	game.approximateSolution();
+
 //		if(game.getDictionary() != null){
 //			//Un ciclo para que busque el mejor tablero, y ese mejor tablero haga el write
 //			//Board gameBoard = game.play();

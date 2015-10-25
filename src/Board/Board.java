@@ -75,6 +75,10 @@ public class Board {
 			}
 		}
 	}
+
+	public boolean containsLetter(int row, int column){
+		return this.board[row][column] != '.';
+	}
 	
 	public int getScore(){
 		return score;
