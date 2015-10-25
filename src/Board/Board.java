@@ -91,35 +91,41 @@ public class Board {
 	public boolean verifyNotTransp(String word, int indexOfWord, int row, int col, List<Character> letters){
 		
 	//	System.out.println("la letra que quiero es " + word.charAt(indexOfWord) + " en " + row + col);
-		
+		System.out.println("ENTRE AL VERIFY");
+		printBoard();
 		if(col - indexOfWord < 0)
 			return false;
 		
-		if(word.length()+col > 14)
+		if(word.length()+col-indexOfWord > 14)
 			return false;
 		
 		for(int i=indexOfWord+1; i<word.length(); i++){
+			int aux = col -indexOfWord + i;
+			System.out.println(" la letra qeu esoty verificando es " + word.charAt(i) + " " + aux);
+			System.out.println("lo uqe hay en estos casilleros es " + board[row+1][aux] + " " + board[row-1][aux] + " la fila es " + row);
 			
-			
-			
-			if(row+1 < 14 && board[row+1][col+i] != '.'){
-			//	System.out.println("tiene cosas alrededor metiendolo horizontalmente");
+			if(row < 14 && board[row+1][aux] != '.'){
+				System.out.println("ENTRO ACA DEVUELVO FALSO");
 				return false;
 			}
-			if(row-1 > 0 && board[row-1][col+i] !='.')
+			if(row > 0 && board[row-1][aux] !='.'){
+				System.out.println("ENTRO ACA DEVUELVO FALSO");
 				return false;
+			}
 			
-			if(board[row][col+i] == '.'){
+			if(board[row][col+i-indexOfWord] == '.'){
+				
 				int index = letters.indexOf(word.charAt(i));
 				if(index == -1)
 					return false;
 				letters.remove(index);
 			}
-			else if(board[row][col+i] != word.charAt(i))
+			else if(board[row][col+i-indexOfWord] != word.charAt(i))
 				return false;
 		}
 		for(int i = 0; i< indexOfWord; i++){
-			
+			int aux = col -indexOfWord + i;
+			System.out.println(" la letra qeu esoty verificando es " + word.charAt(i) + " " + aux);
 			if(col - i <0)
 				return false;
 			
@@ -140,7 +146,9 @@ public class Board {
 			else if(board[row][col- indexOfWord +i] != word.charAt(i))
 				return false;
 		}
+		System.out.println("las letras que me quedan despeus del verify " + letters.toString());
 	//	System.out.println("lo puedo meter horizontalemnte");
+		
 		return true;
 	}
 	
@@ -218,6 +226,8 @@ public class Board {
 			if(board[row][i] == '.'){
 				Character letter = word.charAt(j);
 				int index = letters.indexOf(letter);
+				System.out.println("la letra que hace qeu explote " + letter + " y las letras para que explote todo");
+				System.out.println(letters.toString());
 				letters.remove(index);
 				Point indexs = new Point(row, i);
 				modifiedIndexes.add(indexs);
