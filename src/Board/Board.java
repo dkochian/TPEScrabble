@@ -45,12 +45,9 @@ public class Board {
 		//agrego valor de la letra
 	}
 
-
-
 	public char getLetter(int row, int column) {
 		return board[row][column];
 	}
-
 
 	/**
 	 * Prints the board
@@ -77,10 +74,6 @@ public class Board {
 				this.board[i][j]=board[i][j];
 			}
 		}
-	}
-	
-	public boolean isCenterFree(){
-		return board[7][7] == '7';
 	}
 	
 	public int getScore(){
@@ -202,8 +195,7 @@ public class Board {
 		
 	}
 	
-	public HashSet<Point> putWordNotTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){
-		
+	public HashSet<Point> putWordNotTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){	
 		HashSet<Point> modifiedIndexes = new HashSet<Point>();
 		
 		for(int i = indexOfLetter +1; i<word.length(); i++){

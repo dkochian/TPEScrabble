@@ -12,11 +12,9 @@ import board.Board;
 public class Play {
 		
 	public static void main(String[] args) {
-//		Dic test = new Dic();
-//		System.out.println(test.checkWord("ho"));
-//		System.out.println(test.startsWith("ho"));
-		Game game = new Game();
-		game.firstWord();
+	Game game = new Game();
+	//game.firstWordExact();
+	game.approximateSolution();
 //		if(game.getDictionary() != null){
 //			//Un ciclo para que busque el mejor tablero, y ese mejor tablero haga el write
 //			//Board gameBoard = game.play();

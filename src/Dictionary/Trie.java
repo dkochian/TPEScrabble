@@ -113,8 +113,8 @@ public class Trie {
 	 * @param letters that the words could contain
 	 * @return hashset which are possible with the available letters
 	 */
-	protected HashSet<String> getPossibleWords(List<Character> letters) {
-		HashSet<String> awns = new HashSet<String>();
+	protected ArrayList<String> getPossibleWords(List<Character> letters) {
+		ArrayList<String> awns = new ArrayList<String>();
 
 		for (TrieNode rootChild : root.children.values()) {
 			ArrayList<Character> auxLetters = new ArrayList<Character>( letters);
@@ -125,7 +125,7 @@ public class Trie {
 
 	
 	
-	private void getPossibleWords(TrieNode node, HashSet<String> words, List<Character> letters, StringBuffer word){
+	private void getPossibleWords(TrieNode node, ArrayList<String> words, List<Character> letters, StringBuffer word){
 		if(node.endNode && letters.contains(node.c)){
 			word.append(node.c);
 			words.add(word.toString());

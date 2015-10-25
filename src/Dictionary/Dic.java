@@ -1,23 +1,20 @@
 package dictionary;
 
-
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 import files.Reader;
 
-public class Dic {
-	
+public class Dic{
 	
 	private static Trie dictionary;
-	//public final static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	static Integer[] valuess = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
     public final static AlphaStructure values= new AlphaStructure(valuess);
-	//private static HashMap<Character, Integer> values;
 	
 	public Dic(){
 		dictionary = new Trie();
-		//asignValues();
 		Reader.readDictionary(this);
 	}
 
@@ -27,23 +24,6 @@ public class Dic {
 	}
 	
 	
-	/**
-	 * Asigns each letter a value, the key will be the character
-	 */
-//	private static void asignValues(){
-//		char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-//		int[] valuesAux = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
-//		HashMap<Character, Integer> valuesMap = new HashMap<Character, Integer>();
-//		
-//		for(int i=0; i<26; i++){
-//			valuesMap.put(alphabet[i], valuesAux[i]);
-//		}
-//		/*for(Entry<Character,Integer> entry: valuesMap.entrySet()){
-//			System.out.println(entry.getKey() + " " +entry.getValue());
-//		}*/
-//		values = valuesMap;
-//	}
-//	
 	/**
 	 * @param word to be added to the dictionary
 	 */
@@ -83,24 +63,29 @@ public class Dic {
 	 * @param word whose score will be calculated
 	 * @return the score of the word
 	 */
-	private int wordScore(String word) {
-	
+	public int wordScore(String word) {
         int sum = 0;
         word = word.toUpperCase();
         for(int i = 0; i < word.length();i++) {
         		sum+= values.get(word.charAt(i));
-        		//sum += values[alphabet.indexOf(word.charAt(i))];
         }
-        
         return sum;
     }
 	
-	public HashSet<String> getPossibleWords(List<Character> availablePieces){
-		HashSet<String> awns = dictionary.getPossibleWords(availablePieces);
-		
+	public ArrayList<String> getPossibleWords(List<Character> availablePieces){
+		ArrayList<String> awns = dictionary.getPossibleWords(availablePieces);
 		return awns;
 	}
 	
+	public HashMap<String, Integer> getWordValues(List<Character> availablePieces){
+		HashMap<String, Integer> wordValues = new HashMap<String, Integer>();
+		ArrayList<String> possibleWord = getPossibleWords(availablePieces);
+		for(String word: possibleWord){
+			Integer value = wordScore(word);
+			wordValues.put(word, value);	
+		}
+		return wordValues;
+	}
 	
 
 }
