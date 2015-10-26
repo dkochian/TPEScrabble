@@ -90,9 +90,9 @@ public class Board {
 	
 	public boolean verifyNotTransp(String word, int indexOfWord, int row, int col, List<Character> letters){
 		
-	//	System.out.println("la letra que quiero es " + word.charAt(indexOfWord) + " en " + row + col);
-		System.out.println("ENTRE AL VERIFY");
-		printBoard();
+		if(board[row][col] != word.charAt(indexOfWord))
+			return false;
+		
 		if(col - indexOfWord < 0)
 			return false;
 		

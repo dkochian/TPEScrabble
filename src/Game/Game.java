@@ -3,7 +3,6 @@ package game;
 //import java.util.ArrayList;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -81,11 +80,11 @@ public class Game {
 		ArrayList<String> possibleWords = dictionary.getPossibleWords(letters);
 
 		while(startTime < endTime){
-			
+
 			board.initBoard();
 			letters = Reader.readLetters();
 			Board bestBoardAux = new Board();
-			
+
 			//pongo la primera palabra
 			String randWord = possibleWords.get((int) ((Math.random())*possibleWords.size()));
 			Integer indexOfWord = (int) ((Math.random())*randWord.length());
@@ -123,64 +122,75 @@ public class Game {
 		board.printBoard();
 		int firstWordScore = dictionary.wordScore(firstWord);
 
-		//	while(int algo = 9){ //aca deberia agarrar al azar no recorrer!!!
-		//letters = new ArrayList<Character>(letters);
+		List<Move> possibleMoves = Move.getAllMoves(board, words, letters);
 
-		int randIndex = (int)(Math.random() * words.size());
-		String word = words.get(randIndex);
+		while( !possibleMoves.isEmpty()){
 
+			int randIndex = (int)(Math.random() * words.size());
+			Move randMove = possibleMoves.get(randIndex);
+			String word = randMove.getWord();
 
-		int secondWordScore = dictionary.wordScore(word);
-		double prob = 1/(1+Math.exp((firstWordScore - secondWordScore)/T));
-		System.out.println("PROB: " + prob);
-		double rand=Math.random();
-		System.out.println("RAND: " + rand);
-		if(prob > rand){
-			System.out.println("quiero ver si puedo meter la palabra " + word);
-
-			for(int i=0; i<word.length(); i++){
-
-				for(int j=0; j<Board.BOARD_SIZE; j++){ //fil
-					for(int k=0; k<Board.BOARD_SIZE; k++){ //col
-
-						int locateLetter = locateLetter(word.charAt(i), j, k);
-						if( locateLetter == -1){ //VERTICAL
-							List<Character> lettersAux = new ArrayList<Character>(letters);
-							if(board.verifyTransp(word, i, j, k, lettersAux)){
-								//la meto verticalmente
-								List<Character >lettersAux2 = new ArrayList<Character>(letters);
-								board.putWordTransp(word, i, j, k, lettersAux2);
-								if(board.getScore() > bestBoard.getScore()){
-									bestBoard.setBoard(board.getBoard());
-									bestBoard.setScore(board.getScore());
-								}
-							}
-						}
-						else if(locateLetter == 1){ //HORIZONTAL
-
-							List<Character> lettersAux = new ArrayList<Character>(letters);
-							System.out.println("letras antes del verify ");
-							System.out.println(lettersAux.toString());
-							if(board.verifyNotTransp(word, i, j, k, lettersAux)){
-								//la meto horizontalmente
-								System.out.println("LA LETRA QUE ENCONTRE PARA METER ES  " + word.charAt(i) + " en la fila " + j + " en la columna " + k);
-								List<Character >lettersAux2 = new ArrayList<Character>(letters);
-								System.out.println("letras que uso para el put "  );
-								System.out.println(lettersAux2.toString());
-								board.putWordNotTransp(word, i, j, k, lettersAux2);
-								if(board.getScore() > bestBoard.getScore()){
-									bestBoard.setBoard(board.getBoard());
-									bestBoard.setScore(board.getScore());
-								}
-							}
-
-						}
-					}
-
+			int secondWordScore = dictionary.wordScore(word);
+			double prob = 1/(1+Math.exp((firstWordScore - secondWordScore)/T));
+			System.out.println("PROB: " + prob);
+			double rand=Math.random();
+			System.out.println("RAND: " + rand);
+			if(prob > rand){
+				//meto la palabra que me da el move
+				if(randMove.isTransp()){
+					board.putWordTransp(word, 0, randMove.getRow(), randMove.getCol(), letters);
+				}else if(!randMove.isTransp()){
+					board.putWordNotTransp(word, 0, randMove.getRow(), randMove.getCol(), letters);
 				}
+				//recalcular moves!
+				//etc
+				
+				
+//				System.out.println("quiero ver si puedo meter la palabra " + word);
+//
+//				for(int i=0; i<word.length(); i++){
+//
+//					for(int j=0; j<Board.BOARD_SIZE; j++){ //fil
+//						for(int k=0; k<Board.BOARD_SIZE; k++){ //col
+//
+//							int locateLetter = locateLetter(word.charAt(i), j, k);
+//							if( locateLetter == -1){ //VERTICAL
+//								List<Character> lettersAux = new ArrayList<Character>(letters);
+//								if(board.verifyTransp(word, i, j, k, lettersAux)){
+//									//la meto verticalmente
+//									List<Character >lettersAux2 = new ArrayList<Character>(letters);
+//									board.putWordTransp(word, i, j, k, lettersAux2);
+//									if(board.getScore() > bestBoard.getScore()){
+//										bestBoard.setBoard(board.getBoard());
+//										bestBoard.setScore(board.getScore());
+//									}
+//								}
+//							}
+//							else if(locateLetter == 1){ //HORIZONTAL
+//
+//								List<Character> lettersAux = new ArrayList<Character>(letters);
+//								System.out.println("letras antes del verify ");
+//								System.out.println(lettersAux.toString());
+//								if(board.verifyNotTransp(word, i, j, k, lettersAux)){
+//									//la meto horizontalmente
+//									System.out.println("LA LETRA QUE ENCONTRE PARA METER ES  " + word.charAt(i) + " en la fila " + j + " en la columna " + k);
+//									List<Character >lettersAux2 = new ArrayList<Character>(letters);
+//									System.out.println("letras que uso para el put "  );
+//									System.out.println(lettersAux2.toString());
+//									board.putWordNotTransp(word, i, j, k, lettersAux2);
+//									if(board.getScore() > bestBoard.getScore()){
+//										bestBoard.setBoard(board.getBoard());
+//										bestBoard.setScore(board.getScore());
+//									}
+//								}
+//
+//							}
+//						}
+//
+//					}
+//				}
 			}
 		}
-		//	}
 	}
 
 	//hasta que no me entra otra palabra mas no la voy a considerar maxima solucion
