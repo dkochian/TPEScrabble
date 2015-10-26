@@ -23,7 +23,7 @@ public class Move {
 
 	public static List<Move> getAllMoves(Board board, List<String> words, List<Character> letters){
 		List<Move> moves = new ArrayList<Move>();
-		//System.out.println("letras con las que entro " + letters.toString());
+		System.out.println("letras con las que entro " + letters.toString());
 		for(String word: words){
 			for(int row=0; row<Board.BOARD_SIZE; row++){
 				for(int col=0; col<Board.BOARD_SIZE; col++){
@@ -49,8 +49,8 @@ public class Move {
 				}
 			}
 		}
-		System.out.println("palabras que puedo meter " + moves.toString());
-		//System.out.println("letras con las que salgo " + letters.toString());
+		//System.out.println("palabras que puedo meter " + moves.toString());
+		System.out.println("letras con las que salgo " + letters.toString());
 		return moves;
 	}
 

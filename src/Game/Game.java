@@ -103,7 +103,7 @@ public class Game {
 							}
 
 							if(locateLetter == -1){//VERTICAL
-								System.out.println("entro a locate");
+								//System.out.println("entro a locate");
 								List<Character> auxLetters2 = new ArrayList<Character>(letters);
 								if(board.verifyTransp(word, i, j, k, auxLetters2)){
 									System.out.println("meto una palabra vertical");
@@ -142,7 +142,7 @@ public class Game {
 			board.initBoard();
 			letters = Reader.readLetters();
 			Board bestBoardAux = new Board();
-
+			System.out.println("mis letras son: " + letters.toString());
 			//pongo la primera palabra
 			String randWord = possibleWords.get((int) ((Math.random())*possibleWords.size()));
 			Integer indexOfWord = (int) ((Math.random())*randWord.length());
@@ -160,15 +160,16 @@ public class Game {
 				index = letters.indexOf(randWord.charAt(i));
 				letters.remove(index);
 			}
-			List<Character> lettersAux = new ArrayList<Character>(letters);
+			//List<Character> lettersAux = new ArrayList<Character>(letters);
 			//board.printBoard();
 			//System.out.println("letras con las que entro: " + lettersAux.toString());
-			approximateSolution2(board, bestBoardAux, lettersAux, randWord, possibleWords, endTime);
+			approximateSolution2(board, bestBoardAux, letters, randWord, possibleWords, endTime);
+			System.out.println("mis letras son: " + letters.toString());
 			if(bestBoardAux.getScore() > bestBoard.getScore()){
 				bestBoard.setBoard(bestBoardAux.getBoard());
 				bestBoard.setScore(bestBoardAux.getScore());
 			}
-			bestBoard.printBoard();
+			//bestBoard.printBoard();
 			//}
 		}
 		
@@ -205,15 +206,26 @@ public class Game {
 			if(prob > rand){
 				//meto la palabra que me da el move
 				if(randMove.isTransp()){
-					board.placePiece(word.charAt(0), randMove.getRow(), randMove.getCol());
-					board.putWordTransp(word, 0, randMove.getRow(), randMove.getCol(), letters);
-					
+					if(board.getBoard()[randMove.getRow()][randMove.getCol()] == '.'){
+						board.placePiece(word.charAt(0), randMove.getRow(), randMove.getCol());
+						int index = letters.indexOf(word.charAt(0));
+						letters.remove(index);
+					}
+					System.out.println("por entrar al put TRANSP el tama;o de las letras es " + letters.size());
+					board.putWordTransp(word, 0, randMove.getRow(), randMove.getCol(), letters);	
+					System.out.println("al salir del put tama;o de letras es " + letters.size());
 				}else{
-					board.placePiece(word.charAt(0), randMove.getRow(), randMove.getCol());
+					if(board.getBoard()[randMove.getRow()][randMove.getCol()] == '.'){
+						board.placePiece(word.charAt(0), randMove.getRow(), randMove.getCol());
+						int index = letters.indexOf(word.charAt(0));
+						letters.remove(index);
+					}
+					System.out.println("por entrar al put NO TRANSP el tama;o de las letras es " + letters.size());
 					board.putWordNotTransp(word, 0, randMove.getRow(), randMove.getCol(), letters);
+					System.out.println("al salir del put tama;o de letras es " + letters.size());
 					
 				}
-				//board.printBoard();
+				board.printBoard();
 			}
 			possibleMoves = Move.getAllMoves(board, words, letters);
 		}
@@ -222,8 +234,6 @@ public class Game {
 			bestBoard.setScore(board.getScore());
 		}
 	}
-
-
 
 	private Integer locateLetter(char letter, int row, int col){
 		if(board.getLetter(row, col) == letter){

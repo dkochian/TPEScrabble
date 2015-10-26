@@ -127,8 +127,6 @@ public class Board {
 				return false;
 		}
 		for(int i = 0; i< indexOfWord; i++){
-			int aux = col -indexOfWord + i;
-			System.out.println(" la letra qeu esoty verificando es " + word.charAt(i) + " " + aux);
 			if(col - i <0)
 				return false;
 			
@@ -168,17 +166,13 @@ public class Board {
 		
 	
 		for(int i= indexOfWord + 1; i<word.length(); i++){
-		//	System.out.println("verfico los costados " + board[row+i-indexOfWord][col+i] + " " + board[row+i-indexOfWord][col-1]);
 			if(( col != 14 && board[row+i-indexOfWord][col+1] != '.') || (col != 0 &&  board[row+i-indexOfWord][col-1] != '.')){
-				//System.out.println("lo que hay alrededor " + board[row+i-indexOfWord][col+1] + " " + board[row+i-indexOfWord][col-i]);
 				return false;
 			}
 			
 			if(board[row+i-indexOfWord][col] == '.'){
-				//System.out.println("letrassSantes " +  letters.toString());
 				Character letter = word.charAt(i);
 				int index = letters.indexOf(letter);
-				//System.out.println("verify: para la letra " + letter + " el index es " + index);
 				if(index == -1)
 					return false;
 				letters.remove(index);
@@ -192,10 +186,8 @@ public class Board {
 		
 		for(int i = row - indexOfWord; i< row; i++, j++){
 			if((col != 14 && board[i][col+1] != '.') ||( col != 0 && board[i][col-1] != '.')){
-				//System.out.println("lo que hay alrededor " + board[i][col+1] + " " +board[i][col-1]);
 				return false;
-				
-			}//System.out.println("no devuelvo falso todavia");
+			}
 			
 			if(board[i][col] == '.'){
 				Character letter = word.charAt(j);
@@ -230,8 +222,6 @@ public class Board {
 			if(board[row][i] == '.'){
 				Character letter = word.charAt(j);
 				int index = letters.indexOf(letter);
-				System.out.println("la letra que hace qeu explote " + letter + " y las letras para que explote todo");
-				System.out.println(letters.toString());
 				letters.remove(index);
 				Point indexs = new Point(row, i);
 				modifiedIndexes.add(indexs);
@@ -239,8 +229,6 @@ public class Board {
 				score += Dic.values.get(word.charAt(j));
 			}
 		}
-	//	System.out.println("agregue la palabra " + word);
-	//	printBoard();
 		return modifiedIndexes;
 		
 	}
@@ -249,11 +237,9 @@ public class Board {
 		
 		HashSet<Point> modifiedIndexes = new HashSet<Point>();
 		int j=0;
-		//System.out.println("plb: " + word +" la letra que me encontro es " + word.charAt(indexOfLetter) + " en la col " + col);
 		for(int i = row - indexOfLetter; i< row; i++, j++){
 			
 			if(board[i][col] == '.'){
-			//	System.out.println("pongo la letra " + word.charAt(j));
 				Character letter = word.charAt(j);
 				int index = letters.indexOf(letter);
 				letters.remove(index);
@@ -268,7 +254,6 @@ public class Board {
 		for(int i= indexOfLetter+1; i<word.length(); i++){
 			if(board[row + i - indexOfLetter][col] == '.'){
 				int index = letters.indexOf(word.charAt(i));
-			//	System.out.println("en put el index de la letra: " + word.charAt(i) +" es " + index);
 				board[row+i-indexOfLetter][col] = word.charAt(i);
 				Point indexs = new Point(row+i-indexOfLetter, col);
 				modifiedIndexes.add(indexs);
@@ -276,9 +261,6 @@ public class Board {
 				score += Dic.values.get(word.charAt(i));
 			}
 		}
-		//printBoard();
-		//System.out.println("agregue la palabra " + word);
-		printBoard();
 		return modifiedIndexes;
 	}
 	
