@@ -160,7 +160,7 @@ public class Board {
 	//	System.out.println("las letras que tengo " + letters.toString());
 	//	System.out.println("LETRA QUE VERIFICO " + word.charAt(indexOfWord) +" en " + row + col);
 		
-		if(row-indexOfWord <0 || (row-indexOfWord < 0 && board[row-indexOfWord-1][col] != '.'))
+		if(row-indexOfWord <0 || (row-indexOfWord > 0 && board[row-indexOfWord-1][col] != '.'))
 			return false;
 		
 		if(row+	word.length() -indexOfWord > 14 || (row+word.length() -indexOfWord <=14 && board[row+word.length()-indexOfWord][col] != '.'))

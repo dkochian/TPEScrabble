@@ -53,8 +53,8 @@ public class Play {
 		}
 
 		Game game = new Game();
-		game.firstWordExact();
-		//game.approximateSolution(System.currentTimeMillis() + 6000);
+		//game.firstWordExact();
+		game.approximateSolution(System.currentTimeMillis() + 600);
 
 		//		if(game.getDictionary() != null){
 		//			//Un ciclo para que busque el mejor tablero, y ese mejor tablero haga el write

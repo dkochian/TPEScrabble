@@ -72,6 +72,63 @@ public class Game {
 		return bestBoard;
 	}
 
+	//hasta que no me entra otra palabra mas no la voy a considerar maxima solucion
+	public void exactSolver(ArrayList<String> words, List<Character> letters, Board board, Board bestBoard){
+
+		if(board.getScore() > bestBoard.getScore()){
+			bestBoard.setBoard(board.getBoard());
+			bestBoard.setScore(board.getScore());
+			bestBoard.printBoard();
+		}
+
+		if(letters.size() > 0){
+			for(String word: words){
+				for(int i=0; i<word.length(); i++){
+
+					for(int j=0; j<Board.BOARD_SIZE; j++){ //row
+						for(int k=0; k<Board.BOARD_SIZE; k++){ //col
+							int locateLetter = locateLetter(word.charAt(i), j, k);
+							if(locateLetter == 1){ //HORIZONTAL
+								
+								List<Character> auxLetters = new ArrayList<Character>(letters);
+								if(board.verifyNotTransp(word, i, j, k, auxLetters)){
+									List<Character> remainingLetters2 = new ArrayList<Character>(letters);
+									HashSet<Point> indexes2 = board.putWordNotTransp(word, i, j, k, remainingLetters2);
+									board.printBoard();
+									exactSolver(words, remainingLetters2, board, bestBoard);
+									for(Point index: indexes2){
+										board.remove(index.x, index.y);
+									}
+								}
+							}
+
+							if(locateLetter == -1){//VERTICAL
+								System.out.println("entro a locate");
+								List<Character> auxLetters2 = new ArrayList<Character>(letters);
+								if(board.verifyTransp(word, i, j, k, auxLetters2)){
+									System.out.println("meto una palabra vertical");
+									
+									List<Character> remainingLetters = new ArrayList<Character>(letters);
+									HashSet<Point>indexes =  board.putWordTransp(word, i, j, k, remainingLetters);
+									board.printBoard();
+									exactSolver(words, remainingLetters, board, bestBoard);
+
+									for(Point index: indexes){
+										board.remove(index.x, index.y);
+									}
+
+								}
+							}
+						}
+					}
+				}
+			}
+			//board.printBoard();
+		}
+
+	}
+	
+	
 	public void approximateSolution(long endTime){
 		Board bestBoard = new Board();
 		long startTime;
@@ -167,61 +224,6 @@ public class Game {
 	}
 
 
-	//hasta que no me entra otra palabra mas no la voy a considerar maxima solucion
-	public void exactSolver(ArrayList<String> words, List<Character> letters, Board board, Board bestBoard){
-
-		if(board.getScore() > bestBoard.getScore()){
-			bestBoard.setBoard(board.getBoard());
-			bestBoard.setScore(board.getScore());
-			bestBoard.printBoard();
-		}
-
-		if(letters.size() > 0){
-			for(String word: words){
-				for(int i=0; i<word.length(); i++){
-
-					for(int j=0; j<Board.BOARD_SIZE; j++){ //row
-						for(int k=0; k<Board.BOARD_SIZE; k++){ //col
-							int locateLetter = locateLetter(word.charAt(i), j, k);
-							if(locateLetter == 1){ //HORIZONTAL
-								
-								List<Character> auxLetters = new ArrayList<Character>(letters);
-								if(board.verifyNotTransp(word, i, j, k, auxLetters)){
-									List<Character> remainingLetters2 = new ArrayList<Character>(letters);
-									HashSet<Point> indexes2 = board.putWordNotTransp(word, i, j, k, remainingLetters2);
-									board.printBoard();
-									exactSolver(words, remainingLetters2, board, bestBoard);
-									for(Point index: indexes2){
-										board.remove(index.x, index.y);
-									}
-								}
-							}
-
-							if(locateLetter == -1){//VERTICAL
-								System.out.println("entro a locate");
-								List<Character> auxLetters2 = new ArrayList<Character>(letters);
-								if(board.verifyTransp(word, i, j, k, auxLetters2)){
-									System.out.println("meto una palabra vertical");
-									
-									List<Character> remainingLetters = new ArrayList<Character>(letters);
-									HashSet<Point>indexes =  board.putWordTransp(word, i, j, k, remainingLetters);
-									board.printBoard();
-									exactSolver(words, remainingLetters, board, bestBoard);
-
-									for(Point index: indexes){
-										board.remove(index.x, index.y);
-									}
-
-								}
-							}
-						}
-					}
-				}
-			}
-			//board.printBoard();
-		}
-
-	}
 
 	private Integer locateLetter(char letter, int row, int col){
 		if(board.getLetter(row, col) == letter){
