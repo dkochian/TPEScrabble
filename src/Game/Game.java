@@ -31,7 +31,6 @@ public class Game {
 
 	public Board firstWordExact(){
 		Board bestBoard = new Board();
-		Board board = new Board();
 		ArrayList<String> possibleWords = dictionary.getPossibleWords(letters);
 
 		for(String word: possibleWords){
@@ -75,12 +74,14 @@ public class Game {
 
 	public void approximateSolution(long endTime){
 		Board bestBoard = new Board();
-		long startTime = System.currentTimeMillis();
+		long startTime;
 		//Array<String, Integer> wordValues = dictionary.getWordValues(letters);
 		ArrayList<String> possibleWords = dictionary.getPossibleWords(letters);
 
-		while(startTime < endTime){
-
+		int k = 0;
+		while((startTime = System.currentTimeMillis()) < endTime){
+			System.out.println("entre k veces " + k);
+			k++;
 			board.initBoard();
 			letters = Reader.readLetters();
 			Board bestBoardAux = new Board();
@@ -103,9 +104,9 @@ public class Game {
 				letters.remove(index);
 			}
 			List<Character> lettersAux = new ArrayList<Character>(letters);
-			board.printBoard();
-			System.out.println("letras con las que entro: " + lettersAux.toString());
-			approximateSolution2(board, bestBoardAux, lettersAux, randWord, possibleWords);
+			//board.printBoard();
+			//System.out.println("letras con las que entro: " + lettersAux.toString());
+			approximateSolution2(board, bestBoardAux, lettersAux, randWord, possibleWords, endTime);
 			if(bestBoardAux.getScore() > bestBoard.getScore()){
 				bestBoard.setBoard(bestBoardAux.getBoard());
 				bestBoard.setScore(bestBoardAux.getScore());
@@ -113,20 +114,29 @@ public class Game {
 			bestBoard.printBoard();
 			//}
 		}
+		
+		if(board.getScore() > bestBoard.getScore()){
+			bestBoard.setScore(board.getScore());
+			bestBoard.setBoard(board.getBoard());
+		}
+		
+		
 		System.out.println("Mejor solucion final: ");
 		bestBoard.printBoard();
+		System.out.println("Puntaje Final: " + bestBoard.getScore());
 	}
 
-	public void approximateSolution2(Board board, Board bestBoard, List<Character> letters, String firstWord, List<String> words){
-		System.out.println("mi board recibido");
-		board.printBoard();
+	public void approximateSolution2(Board board, Board bestBoard, List<Character> letters, String firstWord, List<String> words, long endTime){
+		//System.out.println("mi board recibido");
+		//board.printBoard();
 		int firstWordScore = dictionary.wordScore(firstWord);
 
 		List<Move> possibleMoves = Move.getAllMoves(board, words, letters);
 
-		while( !possibleMoves.isEmpty()){
+		long time;
+		while( endTime > (time=System.currentTimeMillis()) && !possibleMoves.isEmpty()){
 
-			int randIndex = (int)(Math.random() * words.size());
+			int randIndex = (int)(Math.random() * possibleMoves.size());
 			Move randMove = possibleMoves.get(randIndex);
 			String word = randMove.getWord();
 
@@ -138,60 +148,24 @@ public class Game {
 			if(prob > rand){
 				//meto la palabra que me da el move
 				if(randMove.isTransp()){
+					board.placePiece(word.charAt(0), randMove.getRow(), randMove.getCol());
 					board.putWordTransp(word, 0, randMove.getRow(), randMove.getCol(), letters);
-				}else if(!randMove.isTransp()){
+					
+				}else{
+					board.placePiece(word.charAt(0), randMove.getRow(), randMove.getCol());
 					board.putWordNotTransp(word, 0, randMove.getRow(), randMove.getCol(), letters);
+					
 				}
-				//recalcular moves!
-				//etc
-				
-				
-//				System.out.println("quiero ver si puedo meter la palabra " + word);
-//
-//				for(int i=0; i<word.length(); i++){
-//
-//					for(int j=0; j<Board.BOARD_SIZE; j++){ //fil
-//						for(int k=0; k<Board.BOARD_SIZE; k++){ //col
-//
-//							int locateLetter = locateLetter(word.charAt(i), j, k);
-//							if( locateLetter == -1){ //VERTICAL
-//								List<Character> lettersAux = new ArrayList<Character>(letters);
-//								if(board.verifyTransp(word, i, j, k, lettersAux)){
-//									//la meto verticalmente
-//									List<Character >lettersAux2 = new ArrayList<Character>(letters);
-//									board.putWordTransp(word, i, j, k, lettersAux2);
-//									if(board.getScore() > bestBoard.getScore()){
-//										bestBoard.setBoard(board.getBoard());
-//										bestBoard.setScore(board.getScore());
-//									}
-//								}
-//							}
-//							else if(locateLetter == 1){ //HORIZONTAL
-//
-//								List<Character> lettersAux = new ArrayList<Character>(letters);
-//								System.out.println("letras antes del verify ");
-//								System.out.println(lettersAux.toString());
-//								if(board.verifyNotTransp(word, i, j, k, lettersAux)){
-//									//la meto horizontalmente
-//									System.out.println("LA LETRA QUE ENCONTRE PARA METER ES  " + word.charAt(i) + " en la fila " + j + " en la columna " + k);
-//									List<Character >lettersAux2 = new ArrayList<Character>(letters);
-//									System.out.println("letras que uso para el put "  );
-//									System.out.println(lettersAux2.toString());
-//									board.putWordNotTransp(word, i, j, k, lettersAux2);
-//									if(board.getScore() > bestBoard.getScore()){
-//										bestBoard.setBoard(board.getBoard());
-//										bestBoard.setScore(board.getScore());
-//									}
-//								}
-//
-//							}
-//						}
-//
-//					}
-//				}
+				//board.printBoard();
 			}
+			possibleMoves = Move.getAllMoves(board, words, letters);
+		}
+		if(bestBoard.getScore() < board.getScore()){
+			bestBoard.setBoard(board.getBoard());
+			bestBoard.setScore(board.getScore());
 		}
 	}
+
 
 	//hasta que no me entra otra palabra mas no la voy a considerar maxima solucion
 	public void exactSolver(ArrayList<String> words, List<Character> letters, Board board, Board bestBoard){
@@ -208,9 +182,9 @@ public class Game {
 
 					for(int j=0; j<Board.BOARD_SIZE; j++){ //row
 						for(int k=0; k<Board.BOARD_SIZE; k++){ //col
-
 							int locateLetter = locateLetter(word.charAt(i), j, k);
 							if(locateLetter == 1){ //HORIZONTAL
+								
 								List<Character> auxLetters = new ArrayList<Character>(letters);
 								if(board.verifyNotTransp(word, i, j, k, auxLetters)){
 									List<Character> remainingLetters2 = new ArrayList<Character>(letters);
@@ -224,8 +198,11 @@ public class Game {
 							}
 
 							if(locateLetter == -1){//VERTICAL
+								System.out.println("entro a locate");
 								List<Character> auxLetters2 = new ArrayList<Character>(letters);
 								if(board.verifyTransp(word, i, j, k, auxLetters2)){
+									System.out.println("meto una palabra vertical");
+									
 									List<Character> remainingLetters = new ArrayList<Character>(letters);
 									HashSet<Point>indexes =  board.putWordTransp(word, i, j, k, remainingLetters);
 									board.printBoard();

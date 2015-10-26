@@ -90,26 +90,28 @@ public class Board {
 	
 	public boolean verifyNotTransp(String word, int indexOfWord, int row, int col, List<Character> letters){
 		
+		boolean flag = false;
+		
 		if(board[row][col] != word.charAt(indexOfWord))
 			return false;
 		
-		if(col - indexOfWord < 0)
+		if(col - indexOfWord < 0 || (col-indexOfWord > 0 && board[row][col - indexOfWord - 1] != '.'))
 			return false;
 		
-		if(word.length()+col-indexOfWord > 14)
+		if(word.length()+col-indexOfWord > 14 || (col + word.length() - indexOfWord <= 14 && board[row][col+word.length() - indexOfWord] != '.'))
 			return false;
 		
 		for(int i=indexOfWord+1; i<word.length(); i++){
 			int aux = col -indexOfWord + i;
-			System.out.println(" la letra qeu esoty verificando es " + word.charAt(i) + " " + aux);
-			System.out.println("lo uqe hay en estos casilleros es " + board[row+1][aux] + " " + board[row-1][aux] + " la fila es " + row);
+			//System.out.println(" la letra qeu esoty verificando es " + word.charAt(i) + " " + aux);
+			//System.out.println("lo uqe hay en estos casilleros es " + board[row+1][aux] + " " + board[row-1][aux] + " la fila es " + row);
 			
 			if(row < 14 && board[row+1][aux] != '.'){
-				System.out.println("ENTRO ACA DEVUELVO FALSO");
+				//System.out.println("ENTRO ACA DEVUELVO FALSO");
 				return false;
 			}
 			if(row > 0 && board[row-1][aux] !='.'){
-				System.out.println("ENTRO ACA DEVUELVO FALSO");
+				//System.out.println("ENTRO ACA DEVUELVO FALSO");
 				return false;
 			}
 			
@@ -119,6 +121,7 @@ public class Board {
 				if(index == -1)
 					return false;
 				letters.remove(index);
+				flag = true;
 			}
 			else if(board[row][col+i-indexOfWord] != word.charAt(i))
 				return false;
@@ -142,30 +145,31 @@ public class Board {
 				if(index == -1)
 					return false;
 				letters.remove(index);
+				flag = true;
 			}
 			else if(board[row][col- indexOfWord +i] != word.charAt(i))
 				return false;
 		}
-		System.out.println("las letras que me quedan despeus del verify " + letters.toString());
+	//	System.out.println("las letras que me quedan despeus del verify " + letters.toString());
 	//	System.out.println("lo puedo meter horizontalemnte");
 		
-		return true;
+		return flag;
 	}
 	
 	public boolean verifyTransp(String word, int indexOfWord, int row, int col, List<Character> letters){
 	//	System.out.println("las letras que tengo " + letters.toString());
 	//	System.out.println("LETRA QUE VERIFICO " + word.charAt(indexOfWord) +" en " + row + col);
 		
-		if(row-indexOfWord <0)
+		if(row-indexOfWord <0 || (row-indexOfWord < 0 && board[row-indexOfWord-1][col] != '.'))
 			return false;
 		
-		if(row+	word.length() -indexOfWord > 14)
+		if(row+	word.length() -indexOfWord > 14 || (row+word.length() -indexOfWord <=14 && board[row+word.length()-indexOfWord][col] != '.'))
 			return false;
 		
+	
 		for(int i= indexOfWord + 1; i<word.length(); i++){
 		//	System.out.println("verfico los costados " + board[row+i-indexOfWord][col+i] + " " + board[row+i-indexOfWord][col-1]);
 			if(( col != 14 && board[row+i-indexOfWord][col+1] != '.') || (col != 0 &&  board[row+i-indexOfWord][col-1] != '.')){
-				
 				//System.out.println("lo que hay alrededor " + board[row+i-indexOfWord][col+1] + " " + board[row+i-indexOfWord][col-i]);
 				return false;
 			}
@@ -255,7 +259,6 @@ public class Board {
 				letters.remove(index);
 				board[i][col] = word.charAt(j);
 				Point indexs = new Point(i, col);
-				
 				modifiedIndexes.add(indexs);
 				score += Dic.values.get(word.charAt(j));
 			}
