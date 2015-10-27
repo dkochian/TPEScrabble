@@ -37,7 +37,7 @@ public class Move {
 					
 					for(int i=0; i <word.length(); i++){
 
-						Integer locateLetter = locateLetter(word.charAt(i), row, col, board);
+						Integer locateLetter = Board.locateLetter(word.charAt(i), row, col, board);
 						if(locateLetter == HORIZONTAL_WORD){
 							
 							List<Character> lettersAux = new ArrayList<Character>(letters);
@@ -63,23 +63,6 @@ public class Move {
 		return moves;
 	}
 	
-	/**
-	 * 
-	 * @param letter
-	 * @param row
-	 * @param col
-	 * @param board
-	 * @return wether the word will be add vertically or horizontally
-	 */
-	private static Integer locateLetter(char letter, int row, int col, Board board){
-		if(board.getLetter(row, col) == letter){
-			if((row == 14 || ! board.containsLetter(row + 1, col)) && (row == 0 || ! board.containsLetter(row - 1, col)))
-				return VERTICAL_WORD;
-			if((col == 14 || ! board.containsLetter(row, col + 1)) && (col ==0 || ! board.containsLetter(row , col - 1)))
-				return HORIZONTAL_WORD; 
-		}
-		return 0;
-	}
 
 	public String getWord() {
 		return word;
@@ -140,7 +123,7 @@ public class Move {
 	}
 
 	public String toString(){
-		return "Palabra: " + word + " fila y columna " + row + col + " es transp? " + transp;
+		return "Word: " + word + " row and column" + row + col + " is transp? " + transp;
 	}
 
 

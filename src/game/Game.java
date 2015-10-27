@@ -21,6 +21,7 @@ public class Game {
 	private String lettersFileName;
 	private int maxScore = 0;
 	private Scrabble gui;
+	private boolean placedAllLetters;
 	
 	public Game(String lettersFileName, String dictionaryFileName, boolean visual) {
 		
@@ -44,12 +45,17 @@ public class Game {
 	 */
 
 	public Board exactSolution(){
+		long startTime = System.currentTimeMillis();
 		Board bestBoard = new Board();
 		List<String> possibleWords = dictionary.getPossibleWords(letters);
 		int numberBoards = 0;
 
-		for(String word: possibleWords){
 
+
+		for(int k=0; k<possibleWords.size() && !placedAllLetters; k++){
+			String word = possibleWords.get(k);
+		//for(String word: possibleWords){
+			
 			char[] charWord = word.toCharArray();
 
 			for(int i = 0; i < word.length(); i++){
@@ -76,9 +82,9 @@ public class Game {
 				exactSolver(possibleWords, letters, board, bestBoardRec);
 				
 				numberBoards += 1;
-				System.out.println("Tablero Número : " + numberBoards);
+				System.out.println("Board Number : " + numberBoards);
 				bestBoardRec.printBoard();
-				System.out.println("Puntaje del trablero número " + numberBoards + " : " + bestBoardRec.getScore() + " puntos.");
+				System.out.println("Score of the board number " + numberBoards + " : " + bestBoardRec.getScore() + " points.");
 				System.out.println();
 				
 				if(gui != null){
@@ -105,9 +111,11 @@ public class Game {
 			gui.updateScores(bestBoard.getScore());
 		}
 		
-		System.out.println("Mejor Tablero");
+		System.out.println("Best Board");
 		bestBoard.printBoard();
-		System.out.println("Puntaje: " + bestBoard.getScore());
+		System.out.println("Score: " + bestBoard.getScore());
+		long currTime = System.currentTimeMillis();
+		System.out.println("Time: " + (currTime-startTime));
 		return bestBoard;
 	}
 
@@ -128,15 +136,18 @@ public class Game {
 		if(board.getScore() >= maxScore){
 			return;
 		}
+		
+		if(letters.size() == 0)
+			placedAllLetters = true;
 
-		if(letters.size() > 0){
+		if(!placedAllLetters){
 			for(String word: words){
 				for(int i = 0; i < word.length(); i++){
 
 					for(int j = 0; j < Board.BOARD_SIZE; j++){ //row
 						for(int k = 0; k < Board.BOARD_SIZE; k++){ //col
 							
-							int locateLetter = locateLetter(word.charAt(i), j, k);
+							int locateLetter = Board.locateLetter(word.charAt(i), j, k, board);
 							if(locateLetter == HORIZONTAL_WORD){ 
 								
 								List<Character> auxLetters = new ArrayList<Character>(letters);
@@ -176,8 +187,7 @@ public class Game {
 	 * Initialize the Stochastic Hill Climbing algorithm, setting the first random word
 	 * @param endTime 
 	 * @return the best board
-	 */
-	
+	 */	
 	public Board approximateSolution(long endTime){
 		Board bestBoard = new Board();
 		long startTime;
@@ -212,9 +222,9 @@ public class Game {
 			approximateSolutionRec(board, bestBoardAux, letters, randWord, possibleWords, endTime);
 			
 			numberBoards += 1;
-			System.out.println("Tablero Número : " + numberBoards);
+			System.out.println("Board number: " + numberBoards);
 			board.printBoard();
-			System.out.println("Puntaje del trablero número " + numberBoards + " : " + board.getScore() + " puntos.");
+			System.out.println("Score of the board number" + numberBoards + " : " + board.getScore() + " points.");
 			System.out.println();
 			
 			if(gui != null){
@@ -229,9 +239,11 @@ public class Game {
 
 		}
 		
-		if(board.getScore() > bestBoard.getScore()){//    PARA QUE SIRVE ESTE IF NATI?????????????????
-			bestBoard.setScore(board.getScore());///////////////////////////////////////////////////////////////////////////////
-			bestBoard.setBoard(board.getBoard());///////////////////////////////////////////////////////////////////////////////
+		//checks if the board that couldnt finish running is actually better than 
+		//the actual best board
+		if(board.getScore() > bestBoard.getScore()){
+			bestBoard.setScore(board.getScore());
+			bestBoard.setBoard(board.getBoard());
 		}
 		
 		if(gui != null){
@@ -239,9 +251,9 @@ public class Game {
 			gui.updateScores(bestBoard.getScore());
 		}	
 		
-		System.out.println("Mejor solucion final: ");
+		System.out.println("Best final solution: ");
 		bestBoard.printBoard();
-		System.out.println("Puntaje Final: " + bestBoard.getScore());
+		System.out.println("Final Score: " + bestBoard.getScore());
 		
 		return bestBoard;	
 	}
@@ -270,10 +282,7 @@ public class Game {
 
 			int secondWordScore = dictionary.wordScore(word);
 			double prob = 1/(1+Math.exp((firstWordScore - secondWordScore)/T));
-			
-			//System.out.println("PROB: " + prob);
 			double rand = Math.random();
-			//System.out.println("RAND: " + rand);
 			
 			if(prob > rand){
 
@@ -305,20 +314,5 @@ public class Game {
 			bestBoard.setScore(board.getScore());
 		}
 	}
-	/**
-	 * 
-	 * @param letter
-	 * @param row
-	 * @param col
-	 * @return wether the word will be add vertically or horizontally
-	 */
-	private Integer locateLetter(char letter, int row, int col){
-		if(board.getLetter(row, col) == letter){
-			if((row == 14 || ! board.containsLetter(row + 1, col)) && (row == 0 || ! board.containsLetter(row - 1, col)))
-				return VERTICAL_WORD; 
-			if((col == 14 || ! board.containsLetter(row, col + 1)) && (col ==0 || ! board.containsLetter(row , col - 1)))
-				return HORIZONTAL_WORD; 
-		}
-		return 0;
-	}
+
 }

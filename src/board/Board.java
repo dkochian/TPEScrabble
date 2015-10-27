@@ -1,6 +1,7 @@
 package board;
 
 import java.awt.Point;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -11,6 +12,8 @@ public class Board {
 	private char[][] board;
 	public final static int BOARD_SIZE = 15;
 	private int score;
+	private final static int HORIZONTAL_WORD = 1;
+	private final static int VERTICAL_WORD = -1;
 
 
 	public Board(){
@@ -307,6 +310,42 @@ public class Board {
 			}
 		}
 		return modifiedIndexes;
+	}
+	
+	
+	public static Integer locateLetter(char letter, int row, int col, Board board){
+		if(board.getLetter(row, col) == letter){
+			if((row == 14 || ! board.containsLetter(row + 1, col)) && (row == 0 || ! board.containsLetter(row - 1, col)))
+				return VERTICAL_WORD;
+			if((col == 14 || ! board.containsLetter(row, col + 1)) && (col ==0 || ! board.containsLetter(row , col - 1)))
+				return HORIZONTAL_WORD; 
+		}
+		return 0;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(board);
+		result = prime * result + score;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Board other = (Board) obj;
+		if (!Arrays.deepEquals(board, other.board))
+			return false;
+		if (score != other.score)
+			return false;
+		return true;
 	}
 	
 }

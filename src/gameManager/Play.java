@@ -5,6 +5,7 @@ import java.io.IOException;
 import board.Board;
 import files.Writer;
 import game.Game;
+
 /**
  * This class is the Main-Class and will launch the game
  */
@@ -60,7 +61,6 @@ public class Play {
 
 		Game game = new Game(lettersFileName, dictionaryFileName, visual);
 		Board bestBoard = null;
-		//seconds = (1 * 1000) + System.currentTimeMillis();
 		if(seconds > 0){
 			bestBoard = game.approximateSolution(seconds);
 		}else{

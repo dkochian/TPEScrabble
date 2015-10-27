@@ -29,7 +29,7 @@ public class Writer {
 			BufferedWriter bw = new BufferedWriter(fw);
 			char[][] printBoard = board.getBoard();
 			
-			bw.write("El mejor tablero que se generó es el siguiente :");
+			bw.write("The best generated board is: ");
 			bw.newLine();
 			bw.newLine();
 			
@@ -50,7 +50,7 @@ public class Writer {
 				bw.newLine();
 			}
 			bw.newLine();
-			bw.write("El puntaje es de " + String.valueOf(board.getScore()) +" puntos.");
+			bw.write("The score is of " + String.valueOf(board.getScore()) +" points.");
 			
 			bw.close();
 

@@ -90,7 +90,7 @@ public class Scrabble extends JFrame {
 	}
 
 	private void initializeScorePanel() {
-		score1Label.setText("Puntaje : ");
+		score1Label.setText("Score : ");
 		scorePanel.setSize(100, 100);
 	}
 
