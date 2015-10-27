@@ -5,7 +5,9 @@ import java.io.IOException;
 import board.Board;
 import files.Writer;
 import game.Game;
-
+/**
+ * This class is the Main-Class and will launch the game
+ */
 public class Play {
 
 	public static void main(String[] args) {
@@ -32,7 +34,7 @@ public class Play {
 				visual = true;
 				try{
 					seconds = (Long.valueOf(args[5]) * 1000) + System.currentTimeMillis();
-				}catch(ClassCastException e){
+				}catch(NumberFormatException e){
 					System.err.println("The seconds argument is not a correct number");
 					System.exit(0);
 				}
@@ -58,13 +60,12 @@ public class Play {
 
 		Game game = new Game(lettersFileName, dictionaryFileName, visual);
 		Board bestBoard = null;
-		
+		//seconds = (1 * 1000) + System.currentTimeMillis();
 		if(seconds > 0){
 			bestBoard = game.approximateSolution(seconds);
 		}else{
-			bestBoard = game.firstWordExact();
+			bestBoard = game.exactSolution();
 		}
-		
 		try {
 			Writer.write(outPutFileName, bestBoard);
 		} catch (IOException e) {

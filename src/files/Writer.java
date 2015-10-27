@@ -29,16 +29,29 @@ public class Writer {
 			BufferedWriter bw = new BufferedWriter(fw);
 			char[][] printBoard = board.getBoard();
 			
-			bw.write("Scrabble..........");
+			bw.write("El mejor tablero que se generó es el siguiente :");
 			bw.newLine();
 			bw.newLine();
 			
-			for (int i = 0; i < Board.BOARD_SIZE; i++) {
+			for (int i = - 1; i < Board.BOARD_SIZE; i++) {
+				if(i >= 0){
+					bw.write(String.valueOf(i +1));
+					bw.write("\t");
+				}
 				for(int j = 0; j < Board.BOARD_SIZE; j++){
-					bw.write(printBoard[i][j] + " " );
+					if(i < 0){
+						bw.write("\t");
+						bw.write(String.valueOf(j +1));
+					}else{
+						bw.write(printBoard[i][j] + " " );
+						bw.write("\t");
+					}
 				}
 				bw.newLine();
 			}
+			bw.newLine();
+			bw.write("El puntaje es de " + String.valueOf(board.getScore()) +" puntos.");
+			
 			bw.close();
 
 		} catch (IOException e) {

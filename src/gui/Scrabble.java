@@ -92,7 +92,7 @@ public class Scrabble extends JFrame {
 	}
 
 	private void initializeScorePanel() {
-		score1Label.setText("Score : ");
+		score1Label.setText("Puntaje : ");
 		scorePanel.setSize(100, 100);
 	}
 
@@ -100,9 +100,8 @@ public class Scrabble extends JFrame {
 		boardPanel.setLayout(new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE));
 		for (int row = 0; row < Board.BOARD_SIZE; row++) {
 			for (int column = 0; column < Board.BOARD_SIZE; column++) {
-				//String square = String.valueOf(board.getLetter(row, column));
 				JPanel panel = new JPanel();
-				JLabel label = new JLabel(""/*+square*/);
+				JLabel label = new JLabel("");
 				label.setBackground(getSquareColor(row, column));
 				panel.setBackground(getSquareColor(row, column));
 				panel.setSize(50, 50);
@@ -124,30 +123,20 @@ public class Scrabble extends JFrame {
 	}
 	
 	public void updateBoard(Board board) {
-		cleanBoard();
-		for (int row = 0; row < Board.BOARD_SIZE; row++) {
-			for (int column = 0; column < Board.BOARD_SIZE; column++) {
-				JLabel label = grid[row][column];
-				if (board.containsLetter(row,column)){
-					squares[row][column].setBackground(Color.WHITE);
-				label.setText(String.valueOf(board.getLetter(row, column)));
-				}
-			}
-		}
-	}
-
-
-	private void cleanBoard() {
 		for (int row = 0; row < Board.BOARD_SIZE; row++) {
 			for (int column = 0; column < Board.BOARD_SIZE; column++) {
 				JLabel label = grid[row][column];
 				JPanel panel = squares[row][column];
-				label.setText("");
-				label.setBackground(getSquareColor(row, column));
-				panel.setBackground(getSquareColor(row, column));
+				if (board.containsLetter(row,column)){
+					squares[row][column].setBackground(Color.WHITE);
+					label.setText(String.valueOf(board.getLetter(row, column)));
+				}else{
+					label.setText("");
+					label.setBackground(getSquareColor(row, column));
+					panel.setBackground(getSquareColor(row, column));
+				}
 			}
 		}
-		
 	}
 
 	public void updateScores(int score) {

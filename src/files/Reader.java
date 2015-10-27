@@ -15,6 +15,7 @@ public class Reader {
 	/**
 	 * Reads dictionary from text file
 	 * @param dictionary where the valid words will be added
+	 * @param dictionaryFileName
 	 */
 	public static void readDictionary(Dic dictionary, String dictionaryFileName){
 		BufferedReader br = null;
@@ -43,52 +44,23 @@ public class Reader {
 	
 	/**
 	 * Reads letter from text file
-	 * @param lettersFileName 
-	 * @return a List containing the letters which
-	 * will be used in the game
+	 * @param lettersFileName
+	 * @return a List containing the letters which will be used in the game
 	 */
-	public static List<Character> readLetters(String lettersFileName, int maxScore){
+	public static List<Character> readLetters(String lettersFileName){
 		List<Character> letters = new ArrayList<Character>();
 		BufferedReader br = null;
 		try {
-
+			
 			int sCurrentLetter;
 
 			br = new BufferedReader(new FileReader("./" + lettersFileName));
 
 			while ((sCurrentLetter = br.read()) != -1) {
 				
-				if(sCurrentLetter >= 97 && sCurrentLetter <= 122){
-					sCurrentLetter -= 32;
-				}else if(sCurrentLetter < 65 || sCurrentLetter > 90){
+				if(letters.size() == 80){
 					continue;
 				}
-				letters.add((char) sCurrentLetter);
-				maxScore += Dic.getLetterValue((char) sCurrentLetter);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null)br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		return letters;
-	}
-	
-	public static List<Character> readLetters(String lettersFileName){
-		List<Character> letters = new ArrayList<Character>();
-		BufferedReader br = null;
-		try {
-
-			int sCurrentLetter;
-
-			br = new BufferedReader(new FileReader("./" + lettersFileName));
-
-			while ((sCurrentLetter = br.read()) != -1) {
 				
 				if(sCurrentLetter >= 97 && sCurrentLetter <= 122){
 					sCurrentLetter -= 32;

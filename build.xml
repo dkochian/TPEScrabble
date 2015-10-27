@@ -1,0 +1,12 @@
+<project name="TPEScrabble" default="build">
+ <target name="compile" >
+ 	<javac srcdir="src" destdir="bin" /> 
+ </target>
+ <target name="build" depends="compile">
+	<jar destfile="tpe.jar" basedir="bin">
+ 		<manifest>
+ 			<attribute name="Main-Class" value="gameManager.Play"/>
+ 		</manifest>
+	</jar> 
+ </target>
+</project> 

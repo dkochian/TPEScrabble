@@ -21,7 +21,13 @@ public class Move {
 		this.setTransp(transp);
 	}
 
-
+	/**
+	 * 
+	 * @param board
+	 * @param words
+	 * @param letters
+	 * @return a List with all the possible Moves that can be formed with the words and letters available
+	 */
 	public static List<Move> getAllMoves(Board board, List<String> words, List<Character> letters){
 		List<Move> moves = new ArrayList<Move>();
 		for(String word: words){
@@ -56,7 +62,15 @@ public class Move {
 		}
 		return moves;
 	}
-
+	
+	/**
+	 * 
+	 * @param letter
+	 * @param row
+	 * @param col
+	 * @param board
+	 * @return wether the word will be add vertically or horizontally
+	 */
 	private static Integer locateLetter(char letter, int row, int col, Board board){
 		if(board.getLetter(row, col) == letter){
 			if((row == 14 || ! board.containsLetter(row + 1, col)) && (row == 0 || ! board.containsLetter(row - 1, col)))

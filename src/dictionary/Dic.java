@@ -1,6 +1,5 @@
 package dictionary;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,14 +70,19 @@ public class Dic{
         return sum;
     }
 	
-	public ArrayList<String> getPossibleWords(List<Character> availablePieces){
-		ArrayList<String> awns = dictionary.getPossibleWords(availablePieces);
+	/**
+	 * 
+	 * @param availablePieces
+	 * @return a List with all the possible words that can be formed with the availablePieces
+	 */
+	public List<String> getPossibleWords(List<Character> availablePieces){
+		List<String> awns = dictionary.getPossibleWords(availablePieces);
 		return awns;
 	}
 	
 	public HashMap<String, Integer> getWordValues(List<Character> availablePieces){
 		HashMap<String, Integer> wordValues = new HashMap<String, Integer>();
-		ArrayList<String> possibleWord = getPossibleWords(availablePieces);
+		List<String> possibleWord = getPossibleWords(availablePieces);
 		for(String word: possibleWord){
 			Integer value = wordScore(word);
 			wordValues.put(word, value);	

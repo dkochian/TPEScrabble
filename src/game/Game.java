@@ -15,7 +15,7 @@ public class Game {
 	private Board board;
 	private List<Character> letters;
 	private Dic dictionary;
-	private final static int T = 7;
+	private final static int T = 7;// This variable sets for what number will be divided in the Stochastic Hill Climbing probability
 	private final static int HORIZONTAL_WORD = 1;
 	private final static int VERTICAL_WORD = -1;
 	private String lettersFileName;
@@ -27,17 +27,25 @@ public class Game {
 		this.lettersFileName = lettersFileName;
 		this.dictionary = new Dic(dictionaryFileName);
 		this.board = new Board();
-		this.letters = Reader.readLetters(lettersFileName, maxScore);
+		this.letters = Reader.readLetters(lettersFileName);
 		if(visual){
 			this.gui = new Scrabble();
 		}
+		for(Character each : letters){
+			maxScore += Dic.getLetterValue(each);
+		}
 		
+		System.out.println(maxScore);
 	}
+	
+	/**
+	 * Checks all the possible boards by starting with all the possible words. In addition selects which board is the best
+	 * @return the best board
+	 */
 
-
-	public Board firstWordExact(){
+	public Board exactSolution(){
 		Board bestBoard = new Board();
-		ArrayList<String> possibleWords = dictionary.getPossibleWords(letters);
+		List<String> possibleWords = dictionary.getPossibleWords(letters);
 		int numberBoards = 0;
 
 		for(String word: possibleWords){
@@ -70,6 +78,8 @@ public class Game {
 				numberBoards += 1;
 				System.out.println("Tablero Número : " + numberBoards);
 				bestBoardRec.printBoard();
+				System.out.println("Puntaje del trablero número " + numberBoards + " : " + bestBoardRec.getScore() + " puntos.");
+				System.out.println();
 				
 				if(gui != null){
 					gui.updateBoard(bestBoardRec);
@@ -101,15 +111,21 @@ public class Game {
 		return bestBoard;
 	}
 
-	//hasta que no me entra otra palabra mas no la voy a considerar maxima solucion
-	public void exactSolver(ArrayList<String> words, List<Character> letters, Board board, Board bestBoard){
+	/**
+	 * Checks all the possible words that can fit and will be included on the board which maximizes the score with the first word already placed
+	 * @param words
+	 * @param letters
+	 * @param board
+	 * @param bestBoard
+	 */
+	public void exactSolver(List<String> words, List<Character> letters, Board board, Board bestBoard){
 		
 		if(board.getScore() > bestBoard.getScore()){
 			bestBoard.setBoard(board.getBoard());
 			bestBoard.setScore(board.getScore());
 		}
 		
-		if(board.getScore() == maxScore){
+		if(board.getScore() >= maxScore){
 			return;
 		}
 
@@ -128,6 +144,7 @@ public class Game {
 									List<Character> remainingLetters2 = new ArrayList<Character>(letters);
 									HashSet<Point> indexes2 = board.putWordNotTransp(word, i, j, k, remainingLetters2);
 									exactSolver(words, remainingLetters2, board, bestBoard);
+									board.printBoard();
 									for(Point index: indexes2){
 										board.remove(index.x, index.y);
 									}
@@ -141,7 +158,7 @@ public class Game {
 									List<Character> remainingLetters = new ArrayList<Character>(letters);
 									HashSet<Point>indexes =  board.putWordTransp(word, i, j, k, remainingLetters);
 									exactSolver(words, remainingLetters, board, bestBoard);
-
+									board.printBoard();
 									for(Point index: indexes){
 										board.remove(index.x, index.y);
 									}
@@ -155,11 +172,16 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Initialize the Stochastic Hill Climbing algorithm, setting the first random word
+	 * @param endTime 
+	 * @return the best board
+	 */
 	
 	public Board approximateSolution(long endTime){
 		Board bestBoard = new Board();
 		long startTime;
-		ArrayList<String> possibleWords = dictionary.getPossibleWords(letters);
+		List<String> possibleWords = dictionary.getPossibleWords(letters);
 		int numberBoards = 0;
 
 		while(( startTime = System.currentTimeMillis()) < endTime){
@@ -187,11 +209,13 @@ public class Game {
 				letters.remove(index);
 			}
 
-			approximateSolution2(board, bestBoardAux, letters, randWord, possibleWords, endTime);
+			approximateSolutionRec(board, bestBoardAux, letters, randWord, possibleWords, endTime);
 			
 			numberBoards += 1;
 			System.out.println("Tablero Número : " + numberBoards);
 			board.printBoard();
+			System.out.println("Puntaje del trablero número " + numberBoards + " : " + board.getScore() + " puntos.");
+			System.out.println();
 			
 			if(gui != null){
 				gui.updateBoard(board);
@@ -206,8 +230,8 @@ public class Game {
 		}
 		
 		if(board.getScore() > bestBoard.getScore()){//    PARA QUE SIRVE ESTE IF NATI?????????????????
-			bestBoard.setScore(board.getScore());
-			bestBoard.setBoard(board.getBoard());
+			bestBoard.setScore(board.getScore());///////////////////////////////////////////////////////////////////////////////
+			bestBoard.setBoard(board.getBoard());///////////////////////////////////////////////////////////////////////////////
 		}
 		
 		if(gui != null){
@@ -222,7 +246,16 @@ public class Game {
 		return bestBoard;	
 	}
 
-	public void approximateSolution2(Board board, Board bestBoard, List<Character> letters, String firstWord, List<String> words, long endTime){
+	/**
+	 * Checks by a probability which word will be add on the board while it has time
+	 * @param board
+	 * @param bestBoard
+	 * @param letters
+	 * @param firstWord
+	 * @param words
+	 * @param endTime
+	 */
+	public void approximateSolutionRec(Board board, Board bestBoard, List<Character> letters, String firstWord, List<String> words, long endTime){
 
 		int firstWordScore = dictionary.wordScore(firstWord);
 
@@ -272,7 +305,13 @@ public class Game {
 			bestBoard.setScore(board.getScore());
 		}
 	}
-
+	/**
+	 * 
+	 * @param letter
+	 * @param row
+	 * @param col
+	 * @return wether the word will be add vertically or horizontally
+	 */
 	private Integer locateLetter(char letter, int row, int col){
 		if(board.getLetter(row, col) == letter){
 			if((row == 14 || ! board.containsLetter(row + 1, col)) && (row == 0 || ! board.containsLetter(row - 1, col)))

@@ -19,8 +19,7 @@ public class Trie {
 	}
 
 	/**
-	 * @param word
-	 *            to be added to the trie
+	 * @param word  to be added to the trie
 	 */
 	public void insert(String word) {
 		HashMap<Character, TrieNode> children = root.children;
@@ -38,7 +37,6 @@ public class Trie {
 
 			children = t.children;
 
-			// set leaf node
 			if (i == word.length() - 1) {
 				t.endNode = true;
 			}

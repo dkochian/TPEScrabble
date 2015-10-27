@@ -30,21 +30,29 @@ public class Board {
 		}
 
 	}
-
+	/**
+	 * Removes a letter from the board and subtracts the score of that letter. If there was not a letter returns without doing something.
+	 * @param row
+	 * @param col
+	 */
 	public void remove(int row, int col){
 		if(board[row][col] == '.')
 			return;
-		//deberia restar el valor de la letra
 		score -= Dic.getLetterValue(board[row][col]);
 		board[row][col]='.';
 	}
-
+	
+	/**
+	 * Places a letter on the board and adds the score that corresponds to that letter.
+	 * @param letter
+	 * @param row
+	 * @param col
+	 */
 	public void placePiece(char letter, int row, int col) {
 		board[row][col]=letter;
 		score += Dic.getLetterValue(letter);
-		//agrego valor de la letra
 	}
-
+	
 	public char getLetter(int row, int column) {
 		return board[row][column];
 	}
@@ -53,21 +61,35 @@ public class Board {
 	 * Prints the board
 	 */
 	public void printBoard() {
-		for (int i=0; i<Board.BOARD_SIZE; i++) {
-			for (int j=0; j<Board.BOARD_SIZE; j++) {
+		System.out.println();
+		for (int i= -1; i < Board.BOARD_SIZE; i++) {
+			if(i >= 0){
+				System.out.print(i + 1);
+				System.out.print("\t");
+			}
+			for (int j=0; j < Board.BOARD_SIZE; j++) {
+				if(i < 0){
+					System.out.print("\t");
+					System.out.print(j + 1);
+				}else{
 					System.out.print(board[i][j]);
 					System.out.print("\t");
+				}
 			}
-				System.out.print("\n");
-			}
-			System.out.println();
-			System.out.println();
+			System.out.print("\n");
+		}
+		System.out.println();
+		System.out.println();
 	}
 
 	public char[][] getBoard() {
 		return this.board;
 	}
 	
+	/**
+	 * Clones the board into a new one.
+	 * @param board
+	 */
 	public void setBoard(char[][] board){
 		for(int i=0; i<Board.BOARD_SIZE; i++){
 			for(int j=0; j<Board.BOARD_SIZE; j++){
@@ -87,7 +109,15 @@ public class Board {
 	public void setScore(int newScore){
 		this.score = newScore;
 	}
-	
+	/**
+	 * Cambiar el nombre de flag o explicar que es
+	 * @param word
+	 * @param indexOfWord
+	 * @param row
+	 * @param col
+	 * @param letters
+	 * @return true if the word is not transposed
+	 */
 	public boolean verifyNotTransp(String word, int indexOfWord, int row, int col, List<Character> letters){
 		
 		boolean flag = false;
@@ -103,15 +133,11 @@ public class Board {
 		
 		for(int i=indexOfWord+1; i<word.length(); i++){
 			int aux = col -indexOfWord + i;
-			//System.out.println(" la letra qeu esoty verificando es " + word.charAt(i) + " " + aux);
-			//System.out.println("lo uqe hay en estos casilleros es " + board[row+1][aux] + " " + board[row-1][aux] + " la fila es " + row);
 			
 			if(row < 14 && board[row+1][aux] != '.'){
-				//System.out.println("ENTRO ACA DEVUELVO FALSO");
 				return false;
 			}
 			if(row > 0 && board[row-1][aux] !='.'){
-				//System.out.println("ENTRO ACA DEVUELVO FALSO");
 				return false;
 			}
 			
@@ -134,7 +160,6 @@ public class Board {
 				return false;
 			
 			if(row-1 >= 0 && board[row-1][col- indexOfWord +i] != '.'){
-			//	System.out.println("tiene algo alrededor metiendolo horizontalmente");
 				return false;
 			}
 			
@@ -147,17 +172,21 @@ public class Board {
 			}
 			else if(board[row][col- indexOfWord +i] != word.charAt(i))
 				return false;
-		}
-	//	System.out.println("las letras que me quedan despeus del verify " + letters.toString());
-	//	System.out.println("lo puedo meter horizontalemnte");
-		
+		}		
 		return flag;
 	}
 	
+	/**
+	 * 
+	 * @param word
+	 * @param indexOfWord
+	 * @param row
+	 * @param col
+	 * @param letters
+	 * @return true if the word is transposed
+	 */
 	public boolean verifyTransp(String word, int indexOfWord, int row, int col, List<Character> letters){
-	//	System.out.println("las letras que tengo " + letters.toString());
-	//	System.out.println("LETRA QUE VERIFICO " + word.charAt(indexOfWord) +" en " + row + col);
-		
+
 		if(row-indexOfWord <0 || (row-indexOfWord > 0 && board[row-indexOfWord-1][col] != '.'))
 			return false;
 		
@@ -180,8 +209,6 @@ public class Board {
 			else if(board[row+i-indexOfWord][col] != word.charAt(i))
 				return false;
 		}
-		
-		//j index of the letter relative to the word and i is the position in the board
 		int j =0;
 		
 		for(int i = row - indexOfWord; i< row; i++, j++){
@@ -203,6 +230,15 @@ public class Board {
 		
 	}
 	
+	/**
+	 * 
+	 * @param word
+	 * @param indexOfLetter
+	 * @param row
+	 * @param col
+	 * @param letters
+	 * @return
+	 */
 	public HashSet<Point> putWordNotTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){	
 		HashSet<Point> modifiedIndexes = new HashSet<Point>();
 		
@@ -233,6 +269,15 @@ public class Board {
 		
 	}
 	
+	/**
+	 * 
+	 * @param word
+	 * @param indexOfLetter
+	 * @param row
+	 * @param col
+	 * @param letters
+	 * @return
+	 */
 	public HashSet<Point> putWordTransp(String word, int indexOfLetter, int row, int col, List<Character> letters){
 		
 		HashSet<Point> modifiedIndexes = new HashSet<Point>();
