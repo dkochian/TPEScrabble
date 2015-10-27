@@ -25,8 +25,6 @@ public class Scrabble extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final int SQUARE_SIZE = 10;
-
 	private JPanel scorePanel = new JPanel();
 	private JLabel score1Label = new JLabel();
 
@@ -114,7 +112,7 @@ public class Scrabble extends JFrame {
 		}
 	}
 
-	public Color getSquareColor(int row, int column) {
+	private Color getSquareColor(int row, int column) {
 		
 		if( row == 7 && column == 7){
 			return new Color(0, 0, 0);
