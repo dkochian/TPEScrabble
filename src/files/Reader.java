@@ -16,17 +16,16 @@ public class Reader {
 	 * Reads dictionary from text file
 	 * @param dictionary where the valid words will be added
 	 */
-	public static void readDictionary(Dic dictionary){
+	public static void readDictionary(Dic dictionary, String dictionaryFileName){
 		BufferedReader br = null;
 		try {			
 			String sCurrentLine;
 
-			br = new BufferedReader(new FileReader("/Users/natinavas/Documents/ITBA/EDA/TPEScrabble/src/dictionary.txt"));
+			br = new BufferedReader(new FileReader("./" + dictionaryFileName));
 
 			while ((sCurrentLine = br.readLine()) != null) {
 				if(sCurrentLine.length() >= 2 && sCurrentLine.length() <= 7){
 					dictionary.addValidWord(sCurrentLine.toUpperCase());
-					System.out.println(sCurrentLine.toUpperCase());
 				}
 			}
 
@@ -44,17 +43,18 @@ public class Reader {
 	
 	/**
 	 * Reads letter from text file
+	 * @param lettersFileName 
 	 * @return a List containing the letters which
 	 * will be used in the game
 	 */
-	public static List<Character> readLetters(){
+	public static List<Character> readLetters(String lettersFileName, int maxScore){
 		List<Character> letters = new ArrayList<Character>();
 		BufferedReader br = null;
 		try {
 
 			int sCurrentLetter;
 
-			br = new BufferedReader(new FileReader("/Users/natinavas/Documents/ITBA/EDA/TPEScrabble/src/letters.txt"));
+			br = new BufferedReader(new FileReader("./" + lettersFileName));
 
 			while ((sCurrentLetter = br.read()) != -1) {
 				
@@ -64,7 +64,38 @@ public class Reader {
 					continue;
 				}
 				letters.add((char) sCurrentLetter);
-				//System.out.println((char) sCurrentLetter);
+				maxScore += Dic.getLetterValue((char) sCurrentLetter);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return letters;
+	}
+	
+	public static List<Character> readLetters(String lettersFileName){
+		List<Character> letters = new ArrayList<Character>();
+		BufferedReader br = null;
+		try {
+
+			int sCurrentLetter;
+
+			br = new BufferedReader(new FileReader("./" + lettersFileName));
+
+			while ((sCurrentLetter = br.read()) != -1) {
+				
+				if(sCurrentLetter >= 97 && sCurrentLetter <= 122){
+					sCurrentLetter -= 32;
+				}else if(sCurrentLetter < 65 || sCurrentLetter > 90){
+					continue;
+				}
+				letters.add((char) sCurrentLetter);
 			}
 
 		} catch (IOException e) {

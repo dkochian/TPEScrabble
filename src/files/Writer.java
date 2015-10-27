@@ -19,7 +19,7 @@ public class Writer {
 
 		try {
 
-			File file = new File(filename + ".txt");
+			File file = new File("./" + filename);
 
 			if (!file.exists()) {
 				file.createNewFile();

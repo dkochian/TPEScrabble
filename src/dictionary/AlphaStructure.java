@@ -17,7 +17,6 @@ public class AlphaStructure {
 	}
 	
 	public int get(Character c){
-		System.out.println(c.toString());
 		return array[c - 'A'];
 	}
 	

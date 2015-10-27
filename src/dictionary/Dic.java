@@ -2,7 +2,6 @@ package dictionary;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import files.Reader;
@@ -13,9 +12,9 @@ public class Dic{
 	static Integer[] valuess = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
     public final static AlphaStructure values= new AlphaStructure(valuess);
 	
-	public Dic(){
+	public Dic(String dictionaryFileName){
 		dictionary = new Trie();
-		Reader.readDictionary(this);
+		Reader.readDictionary(this, dictionaryFileName);
 	}
 
 	
